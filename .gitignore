@@ -1,0 +1,10 @@
+﻿__pycache__/
+*.pyc
+*.pyo
+.env
+*.db
+chorus_azure_endpoints.json
+deploy_log.txt
+deploy_output.txt
+dist/
+*.egg-info/

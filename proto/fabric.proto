@@ -1,0 +1,108 @@
+syntax = "proto3";
+
+package chorus;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CHORUS Protocol  –  fabric.proto  v1.0
+//
+// Three service tiers:
+//   1. ControlPlane  – pod registration, ephemeral key issuance, session mgmt
+//   2. TargetPod     – final signal receiver (decrypt, verify, process)
+//   3. RelayNode     – amplifier / logger / combiner between source and target
+// ─────────────────────────────────────────────────────────────────────────────
+
+// ── Shared wire types ─────────────────────────────────────────────────────────
+
+// Primary transmission unit.  data = packed float32 (little-endian).
+message TensorPayload {
+  bytes  data       = 1;
+  int32  dim        = 2;
+  int32  seq_len    = 3;
+  string pod_id     = 4;
+  string session_id = 5;
+  string mode       = 6;  // "isolation" | "superposition" | "direct"
+  bytes  watermark  = 7;
+  int64  seq_num    = 8;
+}
+
+// Per-chunk acknowledgement from the receiver.
+message SignalAck {
+  string session_id  = 1;
+  int64  seq_num     = 2;
+  bool   verified    = 3;
+  float  signal_norm = 4;
+  string status      = 5;  // "ok" | "tampered" | "key_expired" | "error"
+  string message     = 6;
+}
+
+// ── Control Plane types ───────────────────────────────────────────────────────
+
+message PodRegistration {
+  string pod_id      = 1;
+  string pod_role    = 2;  // "source" | "relay" | "target"
+  string public_cert = 3;
+}
+
+message SessionKeyBundle {
+  string session_id       = 1;
+  bytes  key_matrix_K     = 2;  // packed float32 [d, d]
+  bytes  key_matrix_K_inv = 3;
+  bytes  watermark_seed   = 4;
+  int64  issued_at        = 5;
+  int64  expires_at       = 6;
+  int32  dim              = 7;
+}
+
+message KeyRequest {
+  string pod_id      = 1;
+  string peer_pod_id = 2;
+  string session_id  = 3;
+}
+
+message ProjectionBundle {
+  string session_id = 1;
+  bytes  W_A        = 2;  // packed float32 [d, d]
+  bytes  W_B        = 3;
+  int32  dim        = 4;
+}
+
+// ── Relay types ───────────────────────────────────────────────────────────────
+
+message RelayInstruction {
+  string session_id      = 1;
+  string forward_to      = 2;
+  float  amplify_factor  = 3;
+  bool   log_fingerprint = 4;
+  bool   rekey           = 5;
+}
+
+message RelayAck {
+  string session_id = 1;
+  int64  seq_num    = 2;
+  bool   forwarded  = 3;
+  string next_hop   = 4;
+  string status     = 5;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Service 1: ControlPlane
+// ─────────────────────────────────────────────────────────────────────────────
+service ControlPlane {
+  rpc RegisterAndRequestKey       (PodRegistration) returns (SessionKeyBundle);
+  rpc RequestOrthogonalProjections(KeyRequest)      returns (ProjectionBundle);
+  rpc GetRelayInstruction         (KeyRequest)      returns (RelayInstruction);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Service 2: TargetPod  –  bidirectional streaming
+// ─────────────────────────────────────────────────────────────────────────────
+service TargetPod {
+  rpc StreamSignal (stream TensorPayload) returns (stream SignalAck);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Service 3: RelayNode  –  bidirectional streaming
+// ─────────────────────────────────────────────────────────────────────────────
+service RelayNode {
+  rpc RelayStream (stream TensorPayload) returns (stream RelayAck);
+}

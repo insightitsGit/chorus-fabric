@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Licensing Outreach Email Templates</title>
+<style>
+  @page { size: 8.5in 11in; margin: 1in; }
+  body { font-family: Arial, sans-serif; font-size: 11pt; line-height: 1.6; max-width: 8in; margin: 0 auto; padding: 1in; background: #fff; }
+  h1 { font-size: 16pt; border-bottom: 2px solid #1d4ed8; padding-bottom: 8pt; }
+  h2 { font-size: 12pt; color: #1d4ed8; margin-top: 28pt; }
+  .email-box { border: 1px solid #ddd; border-radius: 4pt; padding: 16pt; margin: 12pt 0; background: #fafafa; }
+  .field { font-size: 9pt; color: #666; font-weight: bold; margin-bottom: 2pt; }
+  .value { margin-bottom: 10pt; }
+  .subject { font-weight: bold; font-size: 11pt; }
+  .body { white-space: pre-wrap; font-family: "Times New Roman", serif; font-size: 11pt; line-height: 1.7; }
+  .target-box { background: #eff6ff; border: 1px solid #93c5fd; border-radius: 4pt; padding: 10pt; margin: 8pt 0; font-size: 10pt; }
+  .warn { background: #fffbe6; border: 1px solid #f59e0b; padding: 8pt; border-radius: 4pt; font-size: 10pt; margin: 8pt 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 10pt; margin: 12pt 0; }
+  th { background: #1d4ed8; color: #fff; padding: 6pt; text-align: left; }
+  td { padding: 6pt; border: 1pt solid #ddd; }
+  .page-break { page-break-before: always; }
+  .no-print { position: fixed; bottom: 20px; right: 20px; background: #1d4ed8; color: #fff; padding: 10px 18px; border-radius: 6px; font-family: sans-serif; font-size: 12px; cursor: pointer; border: none; z-index: 9999; }
+  @media print { .no-print { display: none; } }
+</style>
+</head>
+<body>
+<button class="no-print" onclick="window.print()">Save as PDF</button>
+
+<h1>Licensing Outreach — Email Templates</h1>
+<p style="font-size:10pt; color:#555;">CHORUS Fabric — Patent Pending US 64/096,156 — Amin Parva — parvaamin@gmail.com</p>
+
+<!-- ── TARGET LIST ── -->
+<h2>Priority Target List</h2>
+
+<table>
+  <thead><tr><th>Company</th><th>Why They Care</th><th>Find Contact Via</th><th>Ask For</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Anthropic</strong></td><td>Building multi-agent Claude systems — every agent-to-agent call is a potential CHORUS payload</td><td>LinkedIn: "AI infrastructure" at Anthropic</td><td>Research licensing call</td></tr>
+    <tr><td><strong>OpenAI</strong></td><td>GPT-4o multi-modal, Assistants API agent pipelines</td><td>LinkedIn: "platform engineering" at OpenAI</td><td>Licensing or acquisition discussion</td></tr>
+    <tr><td><strong>Google DeepMind</strong></td><td>Gemini multi-agent, distributed inference</td><td>LinkedIn: "AI systems" at DeepMind</td><td>Research collaboration + license</td></tr>
+    <tr><td><strong>NVIDIA</strong></td><td>NVLink / NVSwitch — tensor-native comms between GPUs; CHORUS is software layer above</td><td>LinkedIn: "networking architecture" at NVIDIA</td><td>Partnership + integration license</td></tr>
+    <tr><td><strong>LangChain</strong></td><td>Millions of developers building LLM agent pipelines — CHORUS replaces HTTP between agents</td><td>GitHub contributors / LinkedIn</td><td>Integration partnership</td></tr>
+    <tr><td><strong>Microsoft Azure AI</strong></td><td>Already using ACI (where CHORUS was tested) — natural fit for Azure AI Foundry</td><td>LinkedIn: "Azure AI platform"</td><td>Azure Marketplace + license</td></tr>
+  </tbody>
+</table>
+
+<!-- ── EMAIL 1: TECHNICAL LEAD ── -->
+<h2>Email 1 — Technical Lead at AI Company (Cold Outreach)</h2>
+<p style="font-size:10pt; color:#555;">Use for: Anthropic, OpenAI, DeepMind, LangChain. Find a senior engineer or tech lead on LinkedIn.</p>
+
+<div class="email-box">
+  <div class="field">TO:</div>
+  <div class="value">[Name], [Title] at [Company] — &lt;[email]&gt;</div>
+  <div class="field">SUBJECT:</div>
+  <div class="value subject">Patent-pending M2M tensor protocol — 4.45× less bandwidth than REST, zero cipher overhead (live benchmark)</div>
+  <div class="field">BODY:</div>
+  <div class="body">Hi [First Name],
+
+I built a communication protocol specifically for AI-to-AI signaling called CHORUS Fabric and I think it's relevant to what [Company] is building.
+
+The core idea: instead of agents calling each other via HTTP/JSON (which serializes embeddings to text and back), CHORUS streams raw float32 vectors directly over gRPC with a matrix multiplication cipher and per-message SHA-256 watermark for authentication.
+
+The numbers from a live transatlantic deployment (US East → Frankfurt):
+• 179 ms p50 round-trip latency — matches the physical minimum, cipher adds zero overhead
+• 548 bytes per 128-dim payload vs 2,440 bytes for equivalent HTTP/REST (4.45× reduction)
+• 100% watermark verification across 7,766 consecutive transmissions
+• Also supports orthogonal multiplexing (two agents share one channel, 0.000006% crosstalk)
+
+It's filed as a US provisional patent (Application No. 64/096,156) and I just published the library: pip install chorus-fabric
+
+I'd love 20 minutes to walk you through the benchmark data and discuss whether there's a fit with [Company]'s infrastructure. Happy to share the full technical report.
+
+Best,
+Amin Parva
+parvaamin@gmail.com
+US Provisional Patent No. 64/096,156
+https://github.com/aminparva84/chorus-fabric</div>
+</div>
+
+<!-- ── EMAIL 2: NVIDIA ── -->
+<h2>Email 2 — NVIDIA (Hardware Partnership Angle)</h2>
+
+<div class="email-box">
+  <div class="field">TO:</div>
+  <div class="value">[Name], Networking/Systems Architecture at NVIDIA</div>
+  <div class="field">SUBJECT:</div>
+  <div class="value subject">Software tensor comm protocol for AI M2M — patent pending, live benchmarks — potential NVLink complement</div>
+  <div class="field">BODY:</div>
+  <div class="body">Hi [First Name],
+
+NVIDIA has solved the hardware layer for tensor movement between GPUs (NVLink/NVSwitch). I've built the software protocol layer for tensor movement between AI agents over IP networks.
+
+CHORUS Fabric transmits float32 embedding vectors directly over gRPC — no JSON, no tokenization — with a matrix multiplication cipher and rolling watermark for authentication. It was benchmarked transatlantic (Virginia to Frankfurt) at 179 ms p50 with zero measurable cipher overhead and 4.45× lower bandwidth than REST.
+
+The three things that might interest NVIDIA specifically:
+1. The cipher is structurally identical to a linear layer — hardware-accelerable on CUDA without dedicated crypto co-processors
+2. Orthogonal multiplexing mode lets two signals share one channel (W_A @ W_B ≈ 0) — analogous to WDM in fiber
+3. The relay node operates on ciphertext only — relevant for multi-tenant AI infrastructure
+
+Filed US Provisional Patent No. 64/096,156. Open-source library: pip install chorus-fabric
+
+Would you be open to a brief technical call?
+
+Amin Parva
+parvaamin@gmail.com</div>
+</div>
+
+<!-- ── EMAIL 3: FOLLOW UP ── -->
+<div class="page-break"></div>
+<h2>Email 3 — Follow-Up (Send 7 Days After No Reply)</h2>
+
+<div class="email-box">
+  <div class="field">SUBJECT:</div>
+  <div class="value subject">Re: Patent-pending M2M tensor protocol — quick follow-up</div>
+  <div class="field">BODY:</div>
+  <div class="body">Hi [First Name],
+
+Following up on my note from last week about the CHORUS tensor communication protocol.
+
+In case the benchmark numbers are easier to evaluate than a description — here's the one-line summary:
+
+A 128-dim float32 embedding costs 548 bytes over CHORUS vs 2,440 bytes over HTTP/REST JSON, and the cipher adds zero measurable latency overhead on a transatlantic link.
+
+The library is live: pip install chorus-fabric
+Patent pending: US 64/096,156
+
+If this isn't the right time or the right person, I'm happy to be redirected. Otherwise — 15 minutes?
+
+Amin Parva
+parvaamin@gmail.com</div>
+</div>
+
+<!-- ── LICENSING TERMS ── -->
+<h2>Suggested Licensing Terms to Propose</h2>
+
+<div class="warn">
+  <strong>Important:</strong> Do not sign anything without consulting a patent attorney. These are starting-point conversation terms, not legal documents.
+</div>
+
+<table>
+  <thead><tr><th>License Type</th><th>What It Means</th><th>Suggested Ask</th><th>Best For</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Non-Exclusive License</strong></td>
+      <td>They can use it; you can also license to competitors</td>
+      <td>$50K–$200K upfront + $0.001 per 1M tensor transmissions</td>
+      <td>Multiple licensees — maximizes long-term revenue</td>
+    </tr>
+    <tr>
+      <td><strong>Exclusive License (field-of-use)</strong></td>
+      <td>They get exclusivity in one domain (e.g. "LLM agent frameworks only")</td>
+      <td>$200K–$1M upfront + annual minimum royalty</td>
+      <td>One dominant player in a specific vertical</td>
+    </tr>
+    <tr>
+      <td><strong>Full Assignment (sale)</strong></td>
+      <td>You sell the patent entirely — no future royalties</td>
+      <td>$150K–$500K lump sum</td>
+      <td>Fast cash, walk away cleanly</td>
+    </tr>
+    <tr>
+      <td><strong>Research License</strong></td>
+      <td>Free for internal research, commercial use requires negotiation</td>
+      <td>$0 — builds relationships and proof points</td>
+      <td>Getting your foot in the door at big labs</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>What to Say on the Call</h2>
+<ol style="line-height:2;">
+  <li>Start with the benchmark: <em>"We ran this transatlantic — 179ms matches the physical minimum, meaning the cipher adds nothing."</em></li>
+  <li>Show the comparison: <em>"4.45× less bandwidth than REST, 7.1× less than LLM API calls."</em></li>
+  <li>Mention patent pending — it signals seriousness and protects you in the conversation.</li>
+  <li>Ask what they're building: <em>"Are you working on agent-to-agent communication at all?"</em> Let them tell you the use case.</li>
+  <li>Close with: <em>"Would a non-exclusive research license be a reasonable starting point while your team evaluates it?"</em></li>
+</ol>
+
+</body>
+</html>

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>USPTO Form SB/16 — Provisional Patent Cover Sheet</title>
+<style>
+  @page { size: 8.5in 11in; margin: 0.75in; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    background: #fff; color: #000;
+    padding: 0.75in;
+    max-width: 8.5in;
+    margin: 0 auto;
+  }
+  .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #000; padding-bottom: 8pt; margin-bottom: 12pt; }
+  .header-left { font-size: 9pt; }
+  .header-right { text-align: right; }
+  .form-title { font-size: 14pt; font-weight: bold; text-align: center; margin-bottom: 4pt; }
+  .form-subtitle { font-size: 10pt; text-align: center; margin-bottom: 16pt; }
+  .section { margin-bottom: 14pt; }
+  .section-title { font-weight: bold; font-size: 10pt; background: #e0e0e0; padding: 3pt 6pt; margin-bottom: 6pt; }
+  .field-row { display: flex; gap: 12pt; margin-bottom: 8pt; align-items: flex-end; }
+  .field { flex: 1; }
+  .field label { font-size: 8pt; display: block; margin-bottom: 2pt; font-weight: bold; }
+  .field .line { border-bottom: 1px solid #000; min-height: 18pt; padding: 2pt 4pt; font-size: 10pt; }
+  .field .line.filled { color: #000; }
+  .field .line.empty { color: #999; font-style: italic; }
+  .checkbox-row { display: flex; gap: 18pt; margin-bottom: 8pt; align-items: center; }
+  .cb { display: inline-flex; align-items: center; gap: 6pt; font-size: 10pt; }
+  .cb .box { width: 12pt; height: 12pt; border: 1px solid #000; display: inline-block; }
+  .cb .box.checked { background: #000; }
+  .fee-table { width: 100%; border-collapse: collapse; font-size: 9pt; margin-top: 6pt; }
+  .fee-table th { background: #d0d0d0; padding: 4pt 6pt; border: 1px solid #000; text-align: left; font-size: 9pt; }
+  .fee-table td { padding: 4pt 6pt; border: 1px solid #000; }
+  .highlight { background: #fffbe6; border: 1px solid #f59e0b; padding: 6pt 8pt; font-size: 9pt; margin: 8pt 0; }
+  .sig-row { display: flex; gap: 24pt; margin-top: 12pt; }
+  .sig-field { flex: 1; border-bottom: 1px solid #000; min-height: 36pt; }
+  .sig-label { font-size: 8pt; font-weight: bold; margin-top: 3pt; }
+  .no-print {
+    position: fixed; bottom: 20px; right: 20px;
+    background: #1d4ed8; color: #fff; padding: 10px 18px;
+    border-radius: 6px; font-family: sans-serif; font-size: 12px;
+    cursor: pointer; border: none; z-index: 9999;
+  }
+  @media print { .no-print { display: none; } }
+  .page-break { page-break-before: always; }
+  .note { font-size: 8pt; color: #555; font-style: italic; }
+  .uspto-ref { font-size: 8pt; text-align: right; }
+</style>
+</head>
+<body>
+<button class="no-print" onclick="window.print()">Save as PDF (Ctrl+P)</button>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <div style="font-weight:bold;">UNITED STATES PATENT AND TRADEMARK OFFICE</div>
+    <div>United States Department of Commerce</div>
+    <div>600 Dulany Street, Alexandria, VA 22314</div>
+  </div>
+  <div class="header-right">
+    <div class="uspto-ref">PTO/SB/16 (12-23)</div>
+    <div class="uspto-ref">Approved for use through 12/31/2026</div>
+    <div class="uspto-ref">OMB 0651-0032</div>
+  </div>
+</div>
+
+<div class="form-title">PROVISIONAL APPLICATION FOR PATENT COVER SHEET</div>
+<div class="form-subtitle">37 CFR 1.51(c)(1) &nbsp;|&nbsp; 35 U.S.C. § 111(b)</div>
+
+<!-- ── MANDATORY § 1.51(c)(1) IDENTIFICATION STATEMENT ── -->
+<div style="border:2px solid #000; padding:10pt 12pt; margin-bottom:14pt; text-align:center; background:#f8f8f8;">
+  <div style="font-size:11pt; font-weight:bold; letter-spacing:0.04em;">
+    THIS IS A PROVISIONAL APPLICATION FOR PATENT
+  </div>
+  <div style="font-size:9pt; margin-top:4pt;">
+    Filed pursuant to 35 U.S.C. § 111(b) and 37 CFR § 1.51(c)(1) &amp; § 1.53(c).<br>
+    This application has <strong>not</strong> been examined and will <strong>not</strong> mature into a granted patent without the timely filing of a corresponding non-provisional application under 35 U.S.C. § 111(a).
+  </div>
+</div>
+
+<div class="highlight">
+  <strong>Note:</strong> This is a template pre-filled with known information. Fields marked [FILL IN] must be completed before filing at <strong>patentcenter.uspto.gov</strong>. Print this form, complete all fields by hand or in PDF editor, then upload or enter data into Patent Center's online form.
+</div>
+
+<!-- SECTION 1: EXPRESS MAIL -->
+<div class="section">
+  <div class="section-title">EXPRESS MAIL LABEL NO. / EFS DATE (leave blank if filing online via Patent Center)</div>
+  <div class="field">
+    <div class="line empty">[ not applicable — filing electronically ]</div>
+  </div>
+</div>
+
+<!-- SECTION 2: TITLE -->
+<div class="section">
+  <div class="section-title">TITLE OF INVENTION</div>
+  <div class="field">
+    <div class="line filled" style="font-weight:bold; font-size:11pt; padding:4pt;">
+      The Chorus Fabric: High-Dimensional Signal Orchestration for Machine-to-Machine Communication
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 3: INVENTORS -->
+<div class="section">
+  <div class="section-title">INVENTOR(S)</div>
+  <div class="checkbox-row">
+    <span class="cb"><span class="box"></span> Additional inventors are listed on a supplemental sheet</span>
+    <span style="font-size:9pt; color:#555;">(check only if there are co-inventors; leave unchecked for sole inventor)</span>
+  </div>
+
+  <div style="font-weight:bold; font-size:9pt; margin:6pt 0 4pt;">Inventor 1 (Primary Inventor)</div>
+  <div class="field-row">
+    <div class="field" style="flex:2;">
+      <label>Given Name (First and Middle)</label>
+      <div class="line filled">Amin</div>
+    </div>
+    <div class="field" style="flex:2;">
+      <label>Family Name (Last)</label>
+      <div class="line filled">Parva</div>
+    </div>
+  </div>
+  <div class="field-row">
+    <div class="field" style="flex:2;">
+      <label>City of Residence</label>
+      <div class="line filled">Mission Viejo</div>
+    </div>
+    <div class="field" style="flex:1;">
+      <label>State</label>
+      <div class="line filled">CA</div>
+    </div>
+    <div class="field" style="flex:1.5;">
+      <label>Country of Residence</label>
+      <div class="line filled">United States</div>
+    </div>
+  </div>
+  <div class="field-row">
+    <div class="field" style="flex:3;">
+      <label>Mailing Address (Street)</label>
+      <div class="line filled">39 Aliso Ridge Loop</div>
+    </div>
+  </div>
+  <div class="field-row">
+    <div class="field" style="flex:2;">
+      <label>City</label>
+      <div class="line filled">Mission Viejo</div>
+    </div>
+    <div class="field" style="flex:1;">
+      <label>State</label>
+      <div class="line filled">CA</div>
+    </div>
+    <div class="field" style="flex:1;">
+      <label>ZIP Code</label>
+      <div class="line filled">92691</div>
+    </div>
+    <div class="field" style="flex:1.5;">
+      <label>Country</label>
+      <div class="line filled">United States</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 4: CORRESPONDENCE ADDRESS -->
+<div class="section">
+  <div class="section-title">CORRESPONDENCE ADDRESS</div>
+  <div class="checkbox-row">
+    <span class="cb"><span class="box"></span> Customer Number</span>
+    <span style="font-size:9pt; color:#555;">OR</span>
+    <span class="cb"><span class="box checked" style="background:#000; position:relative;"><span style="color:#fff; position:absolute; left:1pt; top:-1pt; font-size:9pt;">✓</span></span> Firm or Individual Name / Address below</span>
+  </div>
+  <div class="field-row">
+    <div class="field" style="flex:3;">
+      <label>Firm or Individual Name</label>
+      <div class="line filled">Amin Parva</div>
+    </div>
+  </div>
+  <div class="field-row">
+    <div class="field" style="flex:3;">
+      <label>Address Line 1</label>
+      <div class="line filled">39 Aliso Ridge Loop</div>
+    </div>
+  </div>
+  <div class="field-row">
+    <div class="field" style="flex:2;">
+      <label>City</label>
+      <div class="line filled">Mission Viejo</div>
+    </div>
+    <div class="field" style="flex:1;">
+      <label>State</label>
+      <div class="line filled">CA</div>
+    </div>
+    <div class="field" style="flex:1;">
+      <label>ZIP</label>
+      <div class="line filled">92691</div>
+    </div>
+    <div class="field" style="flex:1.5;">
+      <label>Country</label>
+      <div class="line filled">United States</div>
+    </div>
+  </div>
+  <div class="field-row">
+    <div class="field" style="flex:2;">
+      <label>Email Address</label>
+      <div class="line filled">parvaamin@gmail.com</div>
+    </div>
+    <div class="field" style="flex:1.5;">
+      <label>Phone Number</label>
+      <div class="line empty">[PHONE]</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 5: AUTHORIZED OFFICER -->
+<div class="section">
+  <div class="section-title">AUTHORIZED OFFICER SIGNATURE (for company applicants only)</div>
+  <div class="note">Leave blank if filing as an individual inventor (not as a corporation or company).</div>
+  <div class="field-row" style="margin-top:6pt;">
+    <div class="field" style="flex:2;"><label>Printed Name of Authorized Officer</label><div class="line empty"></div></div>
+    <div class="field" style="flex:1;"><label>Title</label><div class="line empty"></div></div>
+  </div>
+</div>
+
+<!-- SECTION 6: ENTITY STATUS -->
+<div class="section">
+  <div class="section-title">ENTITY STATUS (check one — determines filing fee)</div>
+  <table class="fee-table">
+    <thead>
+      <tr>
+        <th width="30">Select</th>
+        <th>Entity Type</th>
+        <th>Qualifications</th>
+        <th>Filing Fee (2025)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="text-align:center;"><span class="box" style="display:inline-block;width:12pt;height:12pt;border:1px solid #000;"></span></td>
+        <td><strong>Large Entity</strong></td>
+        <td>Company with 500+ employees, or assigned to large entity</td>
+        <td>$640</td>
+      </tr>
+      <tr>
+        <td style="text-align:center;"><span class="box" style="display:inline-block;width:12pt;height:12pt;border:1px solid #000;"></span></td>
+        <td><strong>Small Entity</strong></td>
+        <td>Individual inventor, small business (&lt;500 employees), nonprofit</td>
+        <td><strong>$320</strong></td>
+      </tr>
+      <tr style="background:#fffbe6;">
+        <td style="text-align:center;"><span style="display:inline-block;width:12pt;height:12pt;border:1px solid #000;background:#000;position:relative;"><span style="color:#fff;position:absolute;left:1pt;top:-2pt;font-size:10pt;">&#x2713;</span></span></td>
+        <td><strong>Micro Entity</strong></td>
+        <td>Small entity + fewer than 4 prior US patent applications + gross income &lt;$239,754 (2025)</td>
+        <td><strong>$160</strong></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="highlight" style="margin-top:8pt;">
+    <strong>Micro Entity:</strong> If you qualify, also file <strong>Form SB/15A</strong> (Micro Entity Certification — income-based) at the same time to claim the $160 fee. Available at: <em>www.uspto.gov/patents/apply/forms/sb0015a.pdf</em>
+  </div>
+</div>
+
+<!-- SECTION 7: ENCLOSED FILES -->
+<div class="section">
+  <div class="section-title">ENCLOSED APPLICATION PARTS (check all that apply)</div>
+  <div class="checkbox-row">
+    <span class="cb"><span class="box checked" style="background:#000;position:relative;"><span style="color:#fff;position:absolute;left:1pt;top:-1pt;font-size:9pt;">✓</span></span> Specification</span>
+    <span class="cb"><span class="box checked" style="background:#000;position:relative;"><span style="color:#fff;position:absolute;left:1pt;top:-1pt;font-size:9pt;">✓</span></span> Drawing(s) (8 figures)</span>
+    <span class="cb"><span class="box"></span> Application Data Sheet (ADS)</span>
+    <span class="cb"><span class="box"></span> CD/DVD</span>
+  </div>
+  <div style="margin-top:8pt; font-size:9pt;">
+    <strong>File upload order in Patent Center:</strong><br>
+    1. Specification PDF (01_PROVISIONAL_SPECIFICATION.pdf)<br>
+    2. Drawings PDF (02_PATENT_FIGURES.pdf — all 8 figures)<br>
+    3. Cover Sheet (this form — Patent Center generates it from data you enter in the web form)<br>
+    4. Form SB/15A Micro Entity Certification (if applicable)
+  </div>
+</div>
+
+<!-- SECTION 8: TOTAL FEES -->
+<div class="section">
+  <div class="section-title">TOTAL FEES ENCLOSED / AUTHORIZED FOR CHARGE</div>
+  <table class="fee-table">
+    <thead>
+      <tr><th>Fee Type</th><th>Large Entity</th><th>Small Entity</th><th>Micro Entity</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Basic Filing Fee</td><td>$640</td><td>$320</td><td><strong>$160</strong></td>
+      </tr>
+      <tr>
+        <td>Search Fee (provisional — none required)</td>
+        <td colspan="3" style="text-align:center;">$0</td>
+      </tr>
+      <tr style="background:#f0f0f0; font-weight:bold;">
+        <td>Total Due</td><td>$640</td><td>$320</td><td>$160</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="note" style="margin-top:6pt;">Payment accepted by credit card in Patent Center at time of electronic filing.</div>
+</div>
+
+<!-- SECTION 9: SIGNATURE -->
+<div class="section">
+  <div class="section-title">SIGNATURE OF APPLICANT OR AUTHORIZED AGENT</div>
+  <div class="note" style="margin-bottom:6pt;">The applicant (inventor) must sign. An attorney/agent registered with USPTO may sign on behalf of applicant.</div>
+  <div class="sig-row">
+    <div style="flex:2;">
+      <div class="sig-field" style="min-height:48pt; border-bottom:1px solid #000;"></div>
+      <div class="sig-label">Signature</div>
+    </div>
+    <div style="flex:1;">
+      <div class="sig-field" style="min-height:48pt; border-bottom:1px solid #000;"></div>
+      <div class="sig-label">Date (MM/DD/YYYY)</div>
+    </div>
+  </div>
+  <div class="field-row" style="margin-top:10pt;">
+    <div class="field" style="flex:2;">
+      <label>Printed Name</label>
+      <div class="line filled">Amin Parva</div>
+    </div>
+    <div class="field" style="flex:1;">
+      <label>Registration No. (if attorney/agent)</label>
+      <div class="line empty">N/A — pro se inventor</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 10: IMPORTANT NOTES -->
+<div class="page-break"></div>
+<div class="section" style="margin-top:0;">
+  <div class="section-title">IMPORTANT NOTICES AND NEXT STEPS</div>
+
+  <div class="highlight" style="margin-bottom:10pt;">
+    <strong>Priority Date:</strong> Your filing date is established the moment USPTO receives a complete provisional application (cover sheet + specification + fee). Even informal drawings qualify. File TODAY to secure your priority date.
+  </div>
+
+  <table class="fee-table">
+    <thead>
+      <tr><th>Timeline</th><th>Action Required</th><th>Consequence if Missed</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Filing date</strong></td><td>File this provisional at patentcenter.uspto.gov</td><td>No priority date established</td></tr>
+      <tr><td>Filing date + 1 day</td><td>You may say "Patent Pending" publicly</td><td>—</td></tr>
+      <tr><td>Months 1–6</td><td>Validate commercial interest, licensing discussions</td><td>—</td></tr>
+      <tr><td>Months 6–10</td><td>Decide: non-provisional US? PCT international?</td><td>—</td></tr>
+      <tr style="background:#fff0e8;"><td><strong>Month 12 (DEADLINE)</strong></td><td>File non-provisional US application OR PCT</td><td><strong>Provisional expires; priority date LOST</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top:12pt; font-size:9pt;">
+    <strong>Estimated Costs for Next Steps:</strong><br>
+    Non-provisional US (DIY): $800–1,600 filing fee<br>
+    Non-provisional US (with patent attorney): $6,000–$16,000 total<br>
+    PCT International application (with attorney): $10,000–$25,000<br><br>
+
+    <strong>USPTO Patent Center:</strong> patentcenter.uspto.gov<br>
+    <strong>File "Provisional Application"</strong> under "File a patent application"<br>
+    <strong>USPTO General Info:</strong> www.uspto.gov/patents/basics/types-patent-applications/provisional-application-patent
+  </div>
+</div>
+
+</body>
+</html>

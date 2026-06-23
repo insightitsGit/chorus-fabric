@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Patent Figures — The Chorus Fabric</title>
+<style>
+  @page { size: 8.5in 11in; margin: 0.75in; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Times New Roman", Times, serif; background: #fff; color: #000; }
+  .fig-page {
+    width: 7in; margin: 0 auto;
+    min-height: 9.5in;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 0.5in 0;
+    page-break-after: always;
+  }
+  .fig-label {
+    font-size: 11pt; font-weight: bold; text-align: center;
+    margin-top: 24pt; letter-spacing: 0.05em;
+  }
+  .fig-caption { font-size: 10pt; text-align: center; margin-top: 6pt; max-width: 5in; }
+  svg { max-width: 100%; }
+  .no-print {
+    position: fixed; bottom: 20px; right: 20px;
+    background: #1d4ed8; color: #fff; padding: 10px 18px;
+    border-radius: 6px; font-family: sans-serif; font-size: 12px;
+    cursor: pointer; border: none; z-index: 9999;
+  }
+  @media print { .no-print { display: none; } }
+</style>
+</head>
+<body>
+<button class="no-print" onclick="window.print()">Save as PDF (Ctrl+P)</button>
+
+<!-- ─────────────────── FIG. 1 ─────────────────── -->
+<div class="fig-page">
+<svg viewBox="0 0 680 520" xmlns="http://www.w3.org/2000/svg" font-family="Times New Roman, serif" font-size="11">
+
+  <!-- Control Plane -->
+  <rect x="440" y="20" width="200" height="80" fill="none" stroke="#000" stroke-width="1.5"/>
+  <text x="540" y="50" text-anchor="middle" font-weight="bold">CONTROL PLANE</text>
+  <text x="540" y="66" text-anchor="middle" font-size="9">Germany West Central</text>
+  <text x="540" y="80" text-anchor="middle" font-size="9">IP: 4.182.111.109 : 50051</text>
+
+  <!-- Source Pod -->
+  <rect x="20" y="20" width="200" height="80" fill="none" stroke="#000" stroke-width="1.5"/>
+  <text x="120" y="48" text-anchor="middle" font-weight="bold">SOURCE POD</text>
+  <text x="120" y="64" text-anchor="middle" font-size="9">US East — Virginia</text>
+  <text x="120" y="80" text-anchor="middle" font-size="9">Benchmark Client</text>
+
+  <!-- Register arrow Source -> CP -->
+  <line x1="220" y1="45" x2="440" y2="45" stroke="#000" stroke-width="1" stroke-dasharray="5,3"/>
+  <polygon points="440,42 450,45 440,48" fill="#000"/>
+  <text x="330" y="40" text-anchor="middle" font-size="9">(1) RegisterAndRequestKey</text>
+  <line x1="440" y1="60" x2="220" y2="60" stroke="#000" stroke-width="1" stroke-dasharray="5,3"/>
+  <polygon points="220,57 210,60 220,63" fill="#000"/>
+  <text x="330" y="74" text-anchor="middle" font-size="9">(2) SessionKeyBundle { K, seed, session_id }</text>
+
+  <!-- Relay Node -->
+  <rect x="240" y="220" width="200" height="80" fill="none" stroke="#000" stroke-width="1.5"/>
+  <text x="340" y="248" text-anchor="middle" font-weight="bold">RELAY NODE</text>
+  <text x="340" y="264" text-anchor="middle" font-size="9">US East — Virginia</text>
+  <text x="340" y="280" text-anchor="middle" font-size="9">IP: 20.237.21.245 : 50052</text>
+
+  <!-- Target Pod -->
+  <rect x="440" y="380" width="200" height="100" fill="none" stroke="#000" stroke-width="1.5"/>
+  <text x="540" y="408" text-anchor="middle" font-weight="bold">TARGET POD</text>
+  <text x="540" y="424" text-anchor="middle" font-size="9">Germany West Central</text>
+  <text x="540" y="440" text-anchor="middle" font-size="9">IP: 98.67.201.195 : 50053</text>
+  <text x="540" y="456" text-anchor="middle" font-size="9">decrypt V_dec = V_enc @ K_inv</text>
+  <text x="540" y="470" text-anchor="middle" font-size="9">verify watermark | dispatch mode</text>
+
+  <!-- Source -> Relay -->
+  <line x1="120" y1="100" x2="120" y2="260" stroke="#000" stroke-width="1"/>
+  <line x1="120" y1="260" x2="240" y2="260" stroke="#000" stroke-width="1.5"/>
+  <polygon points="240,257 252,260 240,263" fill="#000"/>
+  <text x="170" y="200" text-anchor="middle" font-size="9">(3) TensorPayload</text>
+  <text x="170" y="213" text-anchor="middle" font-size="9">V_enc stream</text>
+
+  <!-- Relay internals -->
+  <text x="340" y="310" text-anchor="middle" font-size="9" font-style="italic">V_amp = factor × V_enc</text>
+  <text x="340" y="324" text-anchor="middle" font-size="9" font-style="italic">log SHA-256(V_enc) → audit</text>
+  <text x="340" y="338" text-anchor="middle" font-size="9" font-style="italic">K_inv NOT present here</text>
+
+  <!-- Relay -> Target -->
+  <line x1="440" y1="260" x2="540" y2="260" stroke="#000" stroke-width="1"/>
+  <line x1="540" y1="260" x2="540" y2="380" stroke="#000" stroke-width="1.5"/>
+  <polygon points="537,380 540,392 543,380" fill="#000"/>
+  <text x="510" y="320" text-anchor="middle" font-size="9">(4) V_amp</text>
+  <text x="510" y="334" text-anchor="middle" font-size="9">gRPC stream</text>
+
+  <!-- Ack arrows -->
+  <line x1="520" y1="380" x2="380" y2="310" stroke="#000" stroke-width="1" stroke-dasharray="4,3"/>
+  <polygon points="380,307 368,310 380,313" fill="#000"/>
+  <text x="445" y="355" text-anchor="middle" font-size="9">(5) SignalAck</text>
+
+  <line x1="320" y1="220" x2="140" y2="110" stroke="#000" stroke-width="1" stroke-dasharray="4,3"/>
+  <polygon points="140,107 128,110 140,113" fill="#000"/>
+  <text x="215" y="170" text-anchor="middle" font-size="9">(6) RelayAck</text>
+
+</svg>
+<div class="fig-label">FIG. 1</div>
+<div class="fig-caption">CHORUS Fabric Four-Node Architecture — Transatlantic Deployment</div>
+</div>
+
+<!-- ─────────────────── FIG. 2 ─────────────────── -->
+<div class="fig-page">
+<svg viewBox="0 0 480 560" xmlns="http://www.w3.org/2000/svg" font-family="Times New Roman, serif" font-size="11">
+
+  <defs>
+    <marker id="arr2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#000"/>
+    </marker>
+  </defs>
+
+  <!-- Box 1 -->
+  <rect x="100" y="20" width="280" height="50" fill="#f0f0f0" stroke="#000" stroke-width="1.5"/>
+  <text x="240" y="43" text-anchor="middle" font-weight="bold">V_raw</text>
+  <text x="240" y="59" text-anchor="middle" font-size="9">d-dimensional float32 signal vector</text>
+
+  <line x1="240" y1="70" x2="240" y2="100" stroke="#000" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+  <!-- Box 2 -->
+  <rect x="80" y="100" width="320" height="70" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <text x="240" y="123" text-anchor="middle" font-weight="bold">Compute Watermark W(n)</text>
+  <text x="240" y="141" text-anchor="middle" font-size="9">hash = SHA-256(seed ‖ seq_num)</text>
+  <text x="240" y="156" text-anchor="middle" font-size="9">W(n) = normalize( seeded_random(hash) )</text>
+
+  <line x1="240" y1="170" x2="240" y2="200" stroke="#000" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+  <!-- Box 3 -->
+  <rect x="80" y="200" width="320" height="70" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <text x="240" y="225" text-anchor="middle" font-weight="bold">Inject Watermark</text>
+  <text x="240" y="245" text-anchor="middle" font-size="9">V_wm = normalize( V_raw + α × W(n) )</text>
+  <text x="240" y="261" text-anchor="middle" font-size="9">α = 0.1 (injection strength)</text>
+
+  <line x1="240" y1="270" x2="240" y2="300" stroke="#000" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+  <!-- Box 4 -->
+  <rect x="80" y="300" width="320" height="70" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <text x="240" y="325" text-anchor="middle" font-weight="bold">Encrypt (Tensor Multiplication Cipher)</text>
+  <text x="240" y="345" text-anchor="middle" font-size="9">V_enc = ( V_wm.float64 @ K.float64 ).float32</text>
+  <text x="240" y="361" text-anchor="middle" font-size="9">K obtained from Control Plane</text>
+
+  <line x1="240" y1="370" x2="240" y2="400" stroke="#000" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+  <!-- Box 5 -->
+  <rect x="80" y="400" width="320" height="60" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <text x="240" y="424" text-anchor="middle" font-weight="bold">Pack TensorPayload Protobuf</text>
+  <text x="240" y="444" text-anchor="middle" font-size="9">{ data: V_enc bytes, seq_num, session_id, mode }</text>
+
+  <line x1="240" y1="460" x2="240" y2="490" stroke="#000" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+  <!-- Box 6 -->
+  <rect x="80" y="490" width="320" height="50" fill="#d0e8ff" stroke="#000" stroke-width="1.5"/>
+  <text x="240" y="513" text-anchor="middle" font-weight="bold">Transmit over gRPC Bidirectional Stream</text>
+  <text x="240" y="530" text-anchor="middle" font-size="9">→ Relay Node : 50052</text>
+
+</svg>
+<div class="fig-label">FIG. 2</div>
+<div class="fig-caption">Watermark Injection and Encryption at Transmitting Node</div>
+</div>
+
+<!-- ─────────────────── FIG. 3 ─────────────────── -->
+<div class="fig-page">
+<svg viewBox="0 0 500 600" xmlns="http://www.w3.org/2000/svg" font-family="Times New Roman, serif" font-size="11">
+  <defs>
+    <marker id="arr3" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#000"/>
+    </marker>
+  </defs>
+
+  <rect x="100" y="20" width="300" height="50" fill="#d0e8ff" stroke="#000" stroke-width="1.5"/>
+  <text x="250" y="43" text-anchor="middle" font-weight="bold">Receive TensorPayload</text>
+  <text x="250" y="59" text-anchor="middle" font-size="9">from gRPC stream (Relay → Target)</text>
+
+  <line x1="250" y1="70" x2="250" y2="100" stroke="#000" stroke-width="1.5" marker-end="url(#arr3)"/>
+
+  <rect x="80" y="100" width="340" height="60" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <text x="250" y="124" text-anchor="middle" font-weight="bold">Decrypt</text>
+  <text x="250" y="144" text-anchor="middle" font-size="9">V_dec = ( V_enc.float64 @ K_inv.float64 ).float32</text>
+
+  <line x1="250" y1="160" x2="250" y2="190" stroke="#000" stroke-width="1.5" marker-end="url(#arr3)"/>
+
+  <rect x="80" y="190" width="340" height="70" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <text x="250" y="214" text-anchor="middle" font-weight="bold">Recompute Expected Watermark W(n)</text>
+  <text x="250" y="234" text-anchor="middle" font-size="9">hash = SHA-256(seed ‖ received seq_num)</text>
+  <text x="250" y="250" text-anchor="middle" font-size="9">W(n) = normalize( seeded_random(hash) )</text>
+
+  <line x1="250" y1="260" x2="250" y2="290" stroke="#000" stroke-width="1.5" marker-end="url(#arr3)"/>
+
+  <rect x="80" y="290" width="340" height="60" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <text x="250" y="315" text-anchor="middle" font-weight="bold">Compute Cosine Similarity</text>
+  <text x="250" y="335" text-anchor="middle" font-size="9">sim = dot(V_dec, W(n)) / (‖V_dec‖ × ‖W(n)‖)</text>
+
+  <line x1="250" y1="350" x2="250" y2="385" stroke="#000" stroke-width="1.5" marker-end="url(#arr3)"/>
+
+  <!-- Diamond -->
+  <polygon points="250,385 340,415 250,445 160,415" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <text x="250" y="410" text-anchor="middle" font-size="10">sim ≥ 0.95?</text>
+  <text x="250" y="424" text-anchor="middle" font-size="9">(threshold)</text>
+
+  <!-- YES branch -->
+  <line x1="340" y1="415" x2="420" y2="415" stroke="#000" stroke-width="1.5" marker-end="url(#arr3)"/>
+  <text x="380" y="408" text-anchor="middle" font-size="9">YES</text>
+  <rect x="420" y="390" width="60" height="50" fill="#d0ffd0" stroke="#000" stroke-width="1.5"/>
+  <text x="450" y="413" text-anchor="middle" font-size="10">verified</text>
+  <text x="450" y="430" text-anchor="middle" font-size="10">= true</text>
+
+  <!-- NO branch -->
+  <line x1="160" y1="415" x2="80" y2="415" stroke="#000" stroke-width="1.5" marker-end="url(#arr3)"/>
+  <text x="120" y="408" text-anchor="middle" font-size="9">NO</text>
+  <rect x="20" y="390" width="60" height="50" fill="#ffd0d0" stroke="#000" stroke-width="1.5"/>
+  <text x="50" y="413" text-anchor="middle" font-size="10">REJECT</text>
+  <text x="50" y="430" text-anchor="middle" font-size="10">+ log</text>
+
+  <!-- Mode Dispatch -->
+  <line x1="450" y1="440" x2="450" y2="480" stroke="#000" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="450" y1="480" x2="250" y2="480" stroke="#000" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="250" y1="480" x2="250" y2="500" stroke="#000" stroke-width="1.5" marker-end="url(#arr3)"/>
+
+  <rect x="80" y="500" width="340" height="80" fill="#f0f0f0" stroke="#000" stroke-width="1.5"/>
+  <text x="250" y="522" text-anchor="middle" font-weight="bold">Mode Dispatch</text>
+  <text x="250" y="542" text-anchor="middle" font-size="9">"direct"        → use V_dec directly</text>
+  <text x="250" y="557" text-anchor="middle" font-size="9">"isolation"     → FIG. 4 handler (Mode A)</text>
+  <text x="250" y="572" text-anchor="middle" font-size="9">"superposition" → FIG. 5 handler (Mode B)</text>
+</svg>
+<div class="fig-label">FIG. 3</div>
+<div class="fig-caption">Decryption, Watermark Verification, and Mode Dispatch at Receiving Node</div>
+</div>
+
+<!-- ─────────────────── FIG. 4 ─────────────────── -->
+<div class="fig-page">
+<svg viewBox="0 0 660 500" xmlns="http://www.w3.org/2000/svg" font-family="Times New Roman, serif" font-size="11">
+  <defs>
+    <marker id="arr4" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#000"/>
+    </marker>
+  </defs>
+
+  <!-- Transmitter side label -->
+  <text x="160" y="18" text-anchor="middle" font-weight="bold" font-size="12">TRANSMITTER SIDE</text>
+  <line x1="10" y1="22" x2="310" y2="22" stroke="#000" stroke-width="0.5"/>
+
+  <!-- Receiver side label -->
+  <text x="510" y="18" text-anchor="middle" font-weight="bold" font-size="12">RECEIVER SIDE</text>
+  <line x1="360" y1="22" x2="650" y2="22" stroke="#000" stroke-width="0.5"/>
+
+  <!-- Agent A -->
+  <rect x="10" y="40" width="130" height="45" fill="#e8f0ff" stroke="#000" stroke-width="1.5"/>
+  <text x="75" y="60" text-anchor="middle" font-weight="bold">Agent A Signal</text>
+  <text x="75" y="76" text-anchor="middle" font-size="9">V_A  (d-dim)</text>
+
+  <!-- Agent B -->
+  <rect x="170" y="40" width="130" height="45" fill="#fff0e8" stroke="#000" stroke-width="1.5"/>
+  <text x="235" y="60" text-anchor="middle" font-weight="bold">Agent B Signal</text>
+  <text x="235" y="76" text-anchor="middle" font-size="9">V_B  (d-dim)</text>
+
+  <!-- Project A -->
+  <line x1="75" y1="85" x2="75" y2="140" stroke="#000" stroke-width="1.5" marker-end="url(#arr4)"/>
+  <rect x="10" y="140" width="130" height="50" fill="#e8f0ff" stroke="#000" stroke-width="1.5"/>
+  <text x="75" y="162" text-anchor="middle" font-weight="bold">Project onto W_A</text>
+  <text x="75" y="178" text-anchor="middle" font-size="9">P_A = W_A @ V_A</text>
+
+  <!-- Project B -->
+  <line x1="235" y1="85" x2="235" y2="140" stroke="#000" stroke-width="1.5" marker-end="url(#arr4)"/>
+  <rect x="170" y="140" width="130" height="50" fill="#fff0e8" stroke="#000" stroke-width="1.5"/>
+  <text x="235" y="162" text-anchor="middle" font-weight="bold">Project onto W_B</text>
+  <text x="235" y="178" text-anchor="middle" font-size="9">P_B = W_B @ V_B</text>
+
+  <!-- Merge -->
+  <line x1="75" y1="190" x2="155" y2="240" stroke="#000" stroke-width="1.5" marker-end="url(#arr4)"/>
+  <line x1="235" y1="190" x2="155" y2="240" stroke="#000" stroke-width="1.5" marker-end="url(#arr4)"/>
+  <rect x="60" y="240" width="190" height="50" fill="#f0f0f0" stroke="#000" stroke-width="1.5"/>
+  <text x="155" y="262" text-anchor="middle" font-weight="bold">Form Tunnel Vector</text>
+  <text x="155" y="278" text-anchor="middle" font-size="9">V_tunnel = normalize(P_A + P_B)</text>
+
+  <!-- Encrypt + transmit -->
+  <line x1="155" y1="290" x2="155" y2="330" stroke="#000" stroke-width="1.5" marker-end="url(#arr4)"/>
+  <rect x="60" y="330" width="190" height="50" fill="#d0e8ff" stroke="#000" stroke-width="1.5"/>
+  <text x="155" y="352" text-anchor="middle" font-weight="bold">Watermark + Encrypt</text>
+  <text x="155" y="368" text-anchor="middle" font-size="9">V_enc = V_tunnel @ K</text>
+
+  <!-- gRPC arrow across -->
+  <line x1="250" y1="355" x2="400" y2="355" stroke="#000" stroke-width="2" marker-end="url(#arr4)"/>
+  <text x="325" y="347" text-anchor="middle" font-size="10" font-weight="bold">gRPC stream</text>
+  <text x="325" y="366" text-anchor="middle" font-size="9">single payload →</text>
+
+  <!-- Receiver: decrypt -->
+  <rect x="400" y="330" width="130" height="50" fill="#f0f0f0" stroke="#000" stroke-width="1.5"/>
+  <text x="465" y="352" text-anchor="middle" font-weight="bold">Decrypt</text>
+  <text x="465" y="368" text-anchor="middle" font-size="9">V_dec = V_enc @ K_inv</text>
+
+  <!-- Split -->
+  <line x1="465" y1="330" x2="425" y2="280" stroke="#000" stroke-width="1.5" marker-end="url(#arr4)"/>
+  <line x1="465" y1="330" x2="555" y2="280" stroke="#000" stroke-width="1.5" marker-end="url(#arr4)"/>
+
+  <!-- Recover A -->
+  <rect x="380" y="230" width="130" height="50" fill="#e8f0ff" stroke="#000" stroke-width="1.5"/>
+  <text x="445" y="252" text-anchor="middle" font-weight="bold">Recover V_A</text>
+  <text x="445" y="268" text-anchor="middle" font-size="9">W_A @ V_dec</text>
+
+  <!-- Recover B -->
+  <rect x="520" y="230" width="130" height="50" fill="#fff0e8" stroke="#000" stroke-width="1.5"/>
+  <text x="585" y="252" text-anchor="middle" font-weight="bold">Recover V_B</text>
+  <text x="585" y="268" text-anchor="middle" font-size="9">W_B @ V_dec</text>
+
+  <!-- Orthogonality note -->
+  <rect x="60" y="420" width="540" height="60" fill="#fffbe6" stroke="#888" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="330" y="442" text-anchor="middle" font-weight="bold" font-size="10">Key Property: Orthogonality Condition</text>
+  <text x="330" y="458" text-anchor="middle" font-size="9">W_A @ W_B&#x1D40; ≈ 0 (zero matrix) — generated via QR decomposition</text>
+  <text x="330" y="473" text-anchor="middle" font-size="9">Measured crosstalk: 0.000006% | Recovery cosine similarity: 1.0</text>
+</svg>
+<div class="fig-label">FIG. 4</div>
+<div class="fig-caption">Mode A Orthogonal Isolation: Dual-Signal Multiplexing over Shared Channel</div>
+</div>
+
+<!-- ─────────────────── FIG. 5 ─────────────────── -->
+<div class="fig-page">
+<svg viewBox="0 0 520 480" xmlns="http://www.w3.org/2000/svg" font-family="Times New Roman, serif" font-size="11">
+  <defs>
+    <marker id="arr5" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#000"/>
+    </marker>
+  </defs>
+
+  <rect x="30" y="30" width="150" height="50" fill="#e8f0ff" stroke="#000" stroke-width="1.5"/>
+  <text x="105" y="52" text-anchor="middle" font-weight="bold">Agent A: V_A</text>
+  <text x="105" y="68" text-anchor="middle" font-size="9">d-dimensional signal</text>
+
+  <rect x="330" y="30" width="150" height="50" fill="#fff0e8" stroke="#000" stroke-width="1.5"/>
+  <text x="405" y="52" text-anchor="middle" font-weight="bold">Agent B: V_B</text>
+  <text x="405" y="68" text-anchor="middle" font-size="9">d-dimensional signal</text>
+
+  <line x1="105" y1="80" x2="230" y2="145" stroke="#000" stroke-width="1.5" marker-end="url(#arr5)"/>
+  <line x1="405" y1="80" x2="290" y2="145" stroke="#000" stroke-width="1.5" marker-end="url(#arr5)"/>
+  <text x="170" y="125" text-anchor="middle" font-size="9">+</text>
+  <text x="350" y="125" text-anchor="middle" font-size="9">+</text>
+
+  <rect x="140" y="145" width="240" height="60" fill="#f0f0f0" stroke="#000" stroke-width="1.5"/>
+  <text x="260" y="170" text-anchor="middle" font-weight="bold">Holographic Superposition</text>
+  <text x="260" y="190" text-anchor="middle" font-size="9">V_collective = normalize(V_A + V_B)</text>
+
+  <line x1="260" y1="205" x2="260" y2="245" stroke="#000" stroke-width="1.5" marker-end="url(#arr5)"/>
+
+  <rect x="140" y="245" width="240" height="60" fill="#d0e8ff" stroke="#000" stroke-width="1.5"/>
+  <text x="260" y="268" text-anchor="middle" font-weight="bold">Watermark + Encrypt + Transmit</text>
+  <text x="260" y="288" text-anchor="middle" font-size="9">single payload carrying collective state</text>
+
+  <line x1="260" y1="305" x2="260" y2="340" stroke="#000" stroke-width="1.5" marker-end="url(#arr5)"/>
+
+  <rect x="140" y="340" width="240" height="50" fill="#f0f0f0" stroke="#000" stroke-width="1.5"/>
+  <text x="260" y="362" text-anchor="middle" font-weight="bold">Decrypted: V_dec ≈ V_collective</text>
+  <text x="260" y="378" text-anchor="middle" font-size="9">watermark verified</text>
+
+  <line x1="200" y1="390" x2="130" y2="430" stroke="#000" stroke-width="1.5" marker-end="url(#arr5)"/>
+  <line x1="320" y1="390" x2="390" y2="430" stroke="#000" stroke-width="1.5" marker-end="url(#arr5)"/>
+
+  <rect x="30" y="430" width="160" height="40" fill="#e8f0ff" stroke="#000" stroke-width="1"/>
+  <text x="110" y="448" text-anchor="middle" font-size="9">sim(V_dec, V_A) ≈ 0.70</text>
+  <text x="110" y="462" text-anchor="middle" font-size="8">approximate A contribution</text>
+
+  <rect x="330" y="430" width="160" height="40" fill="#fff0e8" stroke="#000" stroke-width="1"/>
+  <text x="410" y="448" text-anchor="middle" font-size="9">sim(V_dec, V_B) ≈ 0.70</text>
+  <text x="410" y="462" text-anchor="middle" font-size="8">approximate B contribution</text>
+
+  <text x="260" y="412" text-anchor="middle" font-size="9">Use cases: consensus voting, ensemble agreement, sensor fusion</text>
+</svg>
+<div class="fig-label">FIG. 5</div>
+<div class="fig-caption">Mode B Holographic Superposition: Collective State Transmission</div>
+</div>
+
+<!-- ─────────────────── FIG. 6 ─────────────────── -->
+<div class="fig-page">
+<svg viewBox="0 0 700 340" xmlns="http://www.w3.org/2000/svg" font-family="Times New Roman, serif" font-size="11">
+  <defs>
+    <marker id="arr6" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#000"/>
+    </marker>
+  </defs>
+
+  <!-- Source Pod -->
+  <rect x="10" y="100" width="140" height="80" fill="#e8f0ff" stroke="#000" stroke-width="1.5"/>
+  <text x="80" y="128" text-anchor="middle" font-weight="bold">SOURCE POD</text>
+  <text x="80" y="146" text-anchor="middle" font-size="9">holds K (encrypt only)</text>
+  <text x="80" y="162" text-anchor="middle" font-size="9">V_enc = V_raw @ K</text>
+
+  <!-- Relay Node -->
+  <rect x="260" y="60" width="180" height="160" fill="#fff8e8" stroke="#000" stroke-width="1.5"/>
+  <text x="350" y="88" text-anchor="middle" font-weight="bold">RELAY NODE</text>
+  <text x="350" y="106" text-anchor="middle" font-size="9" font-weight="bold">No K_inv held here</text>
+  <line x1="270" y1="114" x2="430" y2="114" stroke="#888" stroke-width="0.5"/>
+  <text x="350" y="130" text-anchor="middle" font-size="9">V_amp = factor × V_enc</text>
+  <text x="350" y="146" text-anchor="middle" font-size="9">(ciphertext amplification)</text>
+  <text x="350" y="162" text-anchor="middle" font-size="9">fingerprint =</text>
+  <text x="350" y="178" text-anchor="middle" font-size="9">SHA-256(V_enc.tobytes())</text>
+  <text x="350" y="198" text-anchor="middle" font-size="9">→ audit log</text>
+
+  <!-- Target Pod -->
+  <rect x="550" y="100" width="140" height="80" fill="#d0ffd0" stroke="#000" stroke-width="1.5"/>
+  <text x="620" y="128" text-anchor="middle" font-weight="bold">TARGET POD</text>
+  <text x="620" y="146" text-anchor="middle" font-size="9">holds K_inv (decrypt)</text>
+  <text x="620" y="162" text-anchor="middle" font-size="9">V_dec = V_amp @ K_inv</text>
+
+  <!-- Arrows -->
+  <line x1="150" y1="140" x2="258" y2="140" stroke="#000" stroke-width="1.5" marker-end="url(#arr6)"/>
+  <text x="204" y="133" text-anchor="middle" font-size="9">V_enc stream</text>
+
+  <line x1="440" y1="140" x2="548" y2="140" stroke="#000" stroke-width="1.5" marker-end="url(#arr6)"/>
+  <text x="494" y="133" text-anchor="middle" font-size="9">V_amp stream</text>
+
+  <!-- Ack back -->
+  <line x1="550" y1="165" x2="442" y2="165" stroke="#888" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arr6)"/>
+  <text x="496" y="180" text-anchor="middle" font-size="9">SignalAck</text>
+
+  <line x1="260" y1="165" x2="152" y2="165" stroke="#888" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arr6)"/>
+  <text x="206" y="180" text-anchor="middle" font-size="9">RelayAck</text>
+
+  <!-- Math note -->
+  <rect x="150" y="260" width="400" height="65" fill="#fffbe6" stroke="#888" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="350" y="280" text-anchor="middle" font-size="10" font-weight="bold">Linear Property: Ciphertext Amplification is Decryption-Safe</text>
+  <text x="350" y="298" text-anchor="middle" font-size="9">decrypt(V_amp) = (factor × V_enc) @ K_inv = factor × (V_enc @ K_inv)</text>
+  <text x="350" y="315" text-anchor="middle" font-size="9">= factor × V_raw_watermarked   [receiver compensates for factor]</text>
+</svg>
+<div class="fig-label">FIG. 6</div>
+<div class="fig-caption">Relay Node: Ciphertext Amplification Without Decryption Key</div>
+</div>
+
+<!-- ─────────────────── FIG. 7 ─────────────────── -->
+<div class="fig-page">
+<svg viewBox="0 0 620 500" xmlns="http://www.w3.org/2000/svg" font-family="Times New Roman, serif" font-size="10">
+  <defs>
+    <marker id="arr7" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#000"/>
+    </marker>
+    <marker id="arr7b" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#888"/>
+    </marker>
+  </defs>
+
+  <!-- Lifeline headers -->
+  <rect x="20" y="20" width="140" height="40" fill="#e8f0ff" stroke="#000" stroke-width="1.5"/>
+  <text x="90" y="44" text-anchor="middle" font-weight="bold">Source Pod</text>
+
+  <rect x="240" y="20" width="140" height="40" fill="#fffbe6" stroke="#000" stroke-width="1.5"/>
+  <text x="310" y="44" text-anchor="middle" font-weight="bold">Control Plane</text>
+
+  <rect x="460" y="20" width="140" height="40" fill="#d0ffd0" stroke="#000" stroke-width="1.5"/>
+  <text x="530" y="44" text-anchor="middle" font-weight="bold">Target Pod</text>
+
+  <!-- Lifelines -->
+  <line x1="90" y1="60" x2="90" y2="490" stroke="#000" stroke-width="0.5" stroke-dasharray="4,3"/>
+  <line x1="310" y1="60" x2="310" y2="490" stroke="#000" stroke-width="0.5" stroke-dasharray="4,3"/>
+  <line x1="530" y1="60" x2="530" y2="490" stroke="#000" stroke-width="0.5" stroke-dasharray="4,3"/>
+
+  <!-- Step 1: Source registers -->
+  <line x1="90" y1="100" x2="308" y2="100" stroke="#000" stroke-width="1.5" marker-end="url(#arr7)"/>
+  <text x="200" y="94" text-anchor="middle" font-size="9">RegisterAndRequestKey(pod_id, mode)</text>
+
+  <!-- Step 2: CP generates bundle -->
+  <rect x="260" y="115" width="100" height="55" fill="#fffbe6" stroke="#888" stroke-width="1"/>
+  <text x="310" y="133" text-anchor="middle" font-size="8">generate K, K_inv</text>
+  <text x="310" y="146" text-anchor="middle" font-size="8">watermark_seed</text>
+  <text x="310" y="159" text-anchor="middle" font-size="8">session_id, TTL</text>
+
+  <!-- Step 3: CP returns bundle to Source -->
+  <line x1="310" y1="175" x2="92" y2="175" stroke="#000" stroke-width="1.5" marker-end="url(#arr7)"/>
+  <text x="200" y="169" text-anchor="middle" font-size="9">SessionKeyBundle { K, seed, session_id, expires_at }</text>
+
+  <!-- Step 4: Target registers -->
+  <line x1="530" y1="220" x2="312" y2="220" stroke="#000" stroke-width="1.5" marker-end="url(#arr7)"/>
+  <text x="420" y="214" text-anchor="middle" font-size="9">Register(session_id)</text>
+
+  <!-- Step 5: CP returns K_inv to Target -->
+  <line x1="310" y1="250" x2="528" y2="250" stroke="#000" stroke-width="1.5" marker-end="url(#arr7)"/>
+  <text x="420" y="244" text-anchor="middle" font-size="9">SessionKeyBundle { K_inv, seed, session_id }</text>
+
+  <!-- Active session bar -->
+  <rect x="83" y="280" width="14" height="100" fill="#c0d8ff" stroke="#000" stroke-width="1"/>
+  <rect x="523" y="280" width="14" height="100" fill="#c0ffc0" stroke="#000" stroke-width="1"/>
+  <text x="200" y="330" text-anchor="middle" font-size="9" font-style="italic">... active session: signals transmitted ...</text>
+
+  <!-- TTL expiry marker -->
+  <line x1="50" y1="390" x2="580" y2="390" stroke="#888" stroke-width="1" stroke-dasharray="6,4"/>
+  <text x="310" y="386" text-anchor="middle" font-size="9" fill="#888">TTL expires (default 7,200 s)</text>
+
+  <!-- Re-register -->
+  <line x1="90" y1="420" x2="308" y2="420" stroke="#000" stroke-width="1" marker-end="url(#arr7)"/>
+  <text x="200" y="414" text-anchor="middle" font-size="9">Re-Register (new session)</text>
+
+  <line x1="310" y1="450" x2="92" y2="450" stroke="#000" stroke-width="1" marker-end="url(#arr7)"/>
+  <text x="200" y="444" text-anchor="middle" font-size="9">New SessionKeyBundle</text>
+</svg>
+<div class="fig-label">FIG. 7</div>
+<div class="fig-caption">Control Plane Session Key Issuance and TTL Lifecycle</div>
+</div>
+
+<!-- ─────────────────── FIG. 8 ─────────────────── -->
+<div class="fig-page">
+<svg viewBox="0 0 680 500" xmlns="http://www.w3.org/2000/svg" font-family="Times New Roman, serif" font-size="11">
+
+  <!-- Title -->
+  <text x="340" y="28" text-anchor="middle" font-size="13" font-weight="bold">Benchmark Results — Transatlantic Deployment</text>
+  <text x="340" y="46" text-anchor="middle" font-size="10">US East (Virginia) → Germany West Central (Frankfurt) | d=128 | 7,766 payloads | 13 runs | 100% verified</text>
+
+  <!-- ── Latency chart ── -->
+  <text x="20" y="80" font-size="12" font-weight="bold">A. Per-Chunk Round-Trip Latency (p50)</text>
+
+  <!-- Axis -->
+  <line x1="180" y1="100" x2="620" y2="100" stroke="#000" stroke-width="1"/>
+  <line x1="180" y1="100" x2="180" y2="240" stroke="#000" stroke-width="1"/>
+
+  <!-- Scale markers -->
+  <text x="175" y="104" text-anchor="end" font-size="8">0</text>
+  <line x1="180" y1="100" x2="620" y2="100" stroke="#ddd" stroke-width="0.5"/>
+  <text x="290" y="96" text-anchor="middle" font-size="8">300 ms</text>
+  <line x1="290" y1="100" x2="290" y2="240" stroke="#ddd" stroke-width="0.5" stroke-dasharray="3,2"/>
+  <text x="400" y="96" text-anchor="middle" font-size="8">600 ms</text>
+  <line x1="400" y1="100" x2="400" y2="240" stroke="#ddd" stroke-width="0.5" stroke-dasharray="3,2"/>
+  <text x="510" y="96" text-anchor="middle" font-size="8">900 ms</text>
+  <line x1="510" y1="100" x2="510" y2="240" stroke="#ddd" stroke-width="0.5" stroke-dasharray="3,2"/>
+
+  <!-- Direct p50=179ms bar (179/1400 * 440 = 56px) -->
+  <text x="175" y="130" text-anchor="end" font-size="10">Direct</text>
+  <rect x="180" y="112" width="56" height="20" fill="#2563eb"/>
+  <text x="242" y="126" font-size="9"> 179 ms (p95: 300 ms)</text>
+
+  <!-- Isolation p50=311ms bar (311/1400*440=98px) -->
+  <text x="175" y="170" text-anchor="end" font-size="10">Mode A</text>
+  <rect x="180" y="152" width="98" height="20" fill="#7c3aed"/>
+  <text x="284" y="166" font-size="9"> 311 ms (p95: 381 ms)</text>
+
+  <!-- Superposition p50=1274ms bar (1274/1400*440=400px) -->
+  <text x="175" y="210" text-anchor="end" font-size="10">Mode B</text>
+  <rect x="180" y="192" width="400" height="20" fill="#dc2626"/>
+  <text x="586" y="206" font-size="9"> 1,274 ms</text>
+
+  <!-- x-axis label -->
+  <text x="400" y="255" text-anchor="middle" font-size="9" font-style="italic">Round-trip latency (milliseconds)</text>
+
+  <!-- ── Bandwidth chart ── -->
+  <text x="20" y="285" font-size="12" font-weight="bold">B. Bandwidth Per Payload (128-dim, d=128)</text>
+
+  <line x1="180" y1="305" x2="620" y2="305" stroke="#000" stroke-width="1"/>
+  <line x1="180" y1="305" x2="180" y2="420" stroke="#000" stroke-width="1"/>
+
+  <!-- Scale 0-4000 bytes, 440px range -->
+  <text x="290" y="302" text-anchor="middle" font-size="8">1,000 B</text>
+  <line x1="290" y1="305" x2="290" y2="420" stroke="#ddd" stroke-width="0.5" stroke-dasharray="3,2"/>
+  <text x="400" y="302" text-anchor="middle" font-size="8">2,000 B</text>
+  <line x1="400" y1="305" x2="400" y2="420" stroke="#ddd" stroke-width="0.5" stroke-dasharray="3,2"/>
+  <text x="510" y="302" text-anchor="middle" font-size="8">3,000 B</text>
+  <line x1="510" y1="305" x2="510" y2="420" stroke="#ddd" stroke-width="0.5" stroke-dasharray="3,2"/>
+
+  <!-- CHORUS: 548B → 548/4000*440=60px -->
+  <text x="175" y="328" text-anchor="end" font-size="10">CHORUS gRPC</text>
+  <rect x="180" y="315" width="60" height="20" fill="#16a34a"/>
+  <text x="246" y="329" font-size="9"> 548 B  (1× baseline)</text>
+
+  <!-- HTTP/REST: 2440B → 2440/4000*440=268px -->
+  <text x="175" y="365" text-anchor="end" font-size="10">HTTP/REST JSON</text>
+  <rect x="180" y="352" width="268" height="20" fill="#ca8a04"/>
+  <text x="454" y="366" font-size="9"> 2,440 B  (4.45×)</text>
+
+  <!-- LLM API: 3900B → 3900/4000*440=429px -->
+  <text x="175" y="405" text-anchor="end" font-size="10">LLM API</text>
+  <rect x="180" y="390" width="429" height="20" fill="#9f1239"/>
+  <text x="615" y="404" font-size="9"> 3,900 B  (7.1×)</text>
+
+  <text x="400" y="436" text-anchor="middle" font-size="9" font-style="italic">Bytes per payload</text>
+
+  <!-- Key stats -->
+  <rect x="20" y="448" width="640" height="44" fill="#f0f9ff" stroke="#93c5fd" stroke-width="1"/>
+  <text x="340" y="464" text-anchor="middle" font-size="9" font-weight="bold">Key Result: Direct mode p50 RTT = 179 ms matches transatlantic physical minimum (~165-180 ms)</text>
+  <text x="340" y="480" text-anchor="middle" font-size="9">Tensor multiplication cipher adds zero measurable latency overhead. 7,766/7,766 watermark verifications passed (100%).</text>
+</svg>
+<div class="fig-label">FIG. 8</div>
+<div class="fig-caption">Benchmark Results: Transatlantic Latency Distribution and Bandwidth vs. Existing Protocols</div>
+</div>
+
+</body>
+</html>

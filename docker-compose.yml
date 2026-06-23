@@ -1,0 +1,126 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# CHORUS Protocol – Docker Compose
+#
+# Four-container topology on an isolated bridge network:
+#
+#   [source-pod] ──gRPC──> [relay-node] ──gRPC──> [target-pod]
+#        │                      │                      │
+#        └──────────────> [control-plane] <────────────┘
+#                    (all pods register here for keys)
+#
+# Host port mappings (for local debugging):
+#   50051  →  control-plane
+#   50052  →  relay-node
+#   50053  →  target-pod
+# ─────────────────────────────────────────────────────────────────────────────
+
+version: "3.9"
+
+networks:
+  chorus-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.0.0/24
+
+services:
+
+  # ── 1. Control Plane ─────────────────────────────────────────────────────────
+  control-plane:
+    build: .
+    container_name: chorus-control-plane
+    environment:
+      CHORUS_ROLE:          control_plane
+      CONTROL_PLANE_PORT:   "50051"
+      CHORUS_DIM:           "128"
+      CHORUS_SESSION_TTL:   "3600"
+      CHORUS_TARGET_HOST:   target-pod
+      CHORUS_TARGET_PORT:   "50053"
+      CHORUS_AMPLIFY_FACTOR: "1.0"
+    ports:
+      - "50051:50051"
+    networks:
+      - chorus-net
+    healthcheck:
+      test: ["CMD-SHELL",
+             "python -c \"import grpc; c=grpc.insecure_channel('localhost:50051'); grpc.channel_ready_future(c).result(timeout=5)\""]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+      start_period: 8s
+
+  # ── 2. Target Pod ─────────────────────────────────────────────────────────────
+  target-pod:
+    build: .
+    container_name: chorus-target
+    environment:
+      CHORUS_ROLE:          target
+      TARGET_PORT:          "50053"
+      CONTROL_PLANE_HOST:   control-plane
+      CONTROL_PLANE_PORT:   "50051"
+      CHORUS_DIM:           "128"
+    ports:
+      - "50053:50053"
+    networks:
+      - chorus-net
+    depends_on:
+      control-plane:
+        condition: service_healthy
+
+  # ── 3. Relay Node ─────────────────────────────────────────────────────────────
+  relay-node:
+    build: .
+    container_name: chorus-relay
+    environment:
+      CHORUS_ROLE:          relay
+      RELAY_PORT:           "50052"
+      CONTROL_PLANE_HOST:   control-plane
+      CONTROL_PLANE_PORT:   "50051"
+      CHORUS_TARGET_HOST:   target-pod
+      CHORUS_TARGET_PORT:   "50053"
+      CHORUS_DIM:           "128"
+    ports:
+      - "50052:50052"
+    networks:
+      - chorus-net
+    depends_on:
+      control-plane:
+        condition: service_healthy
+      target-pod:
+        condition: service_started
+
+  # ── 4. Source Pod (client) ────────────────────────────────────────────────────
+  source-pod:
+    build: .
+    container_name: chorus-source
+    environment:
+      CHORUS_ROLE:          client
+      POD_ID:               pod-A
+      CONTROL_PLANE_HOST:   control-plane
+      CONTROL_PLANE_PORT:   "50051"
+      RELAY_HOST:           relay-node
+      RELAY_PORT:           "50052"
+      CHORUS_TARGET_HOST:   target-pod
+      CHORUS_TARGET_PORT:   "50053"
+      CHORUS_USE_RELAY:     "true"
+      CHORUS_DIM:           "128"
+    networks:
+      - chorus-net
+    depends_on:
+      - relay-node
+      - target-pod
+
+  # ── 5. Test Runner (math validation, no network) ──────────────────────────────
+  test-runner:
+    build: .
+    container_name: chorus-test-runner
+    environment:
+      CHORUS_ROLE: test
+      CHORUS_DIM:  "128"
+    networks:
+      - chorus-net
+    depends_on:
+      control-plane:
+        condition: service_healthy
+    profiles:
+      - test

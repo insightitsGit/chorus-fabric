@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Provisional Patent Application — The Chorus Fabric</title>
+<style>
+  @page { size: 8.5in 11in; margin: 1in; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 12pt;
+    line-height: 2;
+    color: #000;
+    background: #fff;
+    padding: 1in;
+    max-width: 8.5in;
+    margin: 0 auto;
+  }
+  .center { text-align: center; }
+  .header-block { text-align: center; margin-bottom: 36pt; }
+  .header-block .label { font-size: 10pt; letter-spacing: 0.1em; text-transform: uppercase; }
+  .header-block .title { font-size: 14pt; font-weight: bold; margin-top: 12pt; line-height: 1.4; }
+  h1 { font-size: 12pt; font-weight: bold; text-transform: uppercase; margin: 24pt 0 6pt; text-align: center; letter-spacing: 0.05em; border-bottom: 1px solid #000; padding-bottom: 4pt; }
+  h2 { font-size: 12pt; font-weight: bold; margin: 18pt 0 6pt; }
+  h3 { font-size: 12pt; font-weight: bold; font-style: italic; margin: 14pt 0 4pt; }
+  p { margin-bottom: 12pt; text-align: justify; }
+  .claim { margin-left: 0.5in; margin-bottom: 12pt; text-align: justify; }
+  .claim-sub { margin-left: 1in; margin-bottom: 8pt; text-align: justify; }
+  .line-num { display: inline-block; width: 0.4in; text-align: right; color: #999; font-size: 9pt; margin-right: 8pt; vertical-align: top; font-family: "Courier New", monospace; }
+  .page-break { page-break-before: always; }
+  .fig-ref { font-style: italic; }
+  .formula { font-family: "Courier New", monospace; font-size: 11pt; background: #f8f8f8; padding: 4pt 8pt; display: block; margin: 8pt 0 8pt 0.5in; border-left: 2px solid #ccc; }
+  .section-num { margin-right: 8pt; }
+  ul { margin-left: 0.5in; margin-bottom: 12pt; }
+  ul li { margin-bottom: 4pt; }
+  .footer { position: fixed; bottom: 0.5in; width: 100%; text-align: center; font-size: 9pt; color: #666; }
+  .page-num { text-align: center; font-size: 9pt; margin-top: 24pt; }
+  @media print {
+    body { padding: 0; }
+    .no-print { display: none; }
+  }
+  .no-print {
+    position: fixed; bottom: 20px; right: 20px;
+    background: #1d4ed8; color: #fff; padding: 10px 18px;
+    border-radius: 6px; font-family: sans-serif; font-size: 12px;
+    cursor: pointer; border: none; z-index: 9999;
+  }
+</style>
+</head>
+<body>
+
+<button class="no-print" onclick="window.print()">Save as PDF (Ctrl+P)</button>
+
+<!-- ── HEADER ── -->
+<div class="header-block">
+  <div class="label">United States Patent and Trademark Office</div>
+  <div class="label">Provisional Patent Application Under 35 U.S.C. § 111(b)</div>
+  <div class="title">
+    THE CHORUS FABRIC: HIGH-DIMENSIONAL SIGNAL ORCHESTRATION<br>
+    FOR MACHINE-TO-MACHINE COMMUNICATION
+  </div>
+</div>
+
+<!-- ── FIELD ── -->
+<h1>Field of the Invention</h1>
+
+<p>The present invention relates to machine-to-machine (M2M) communication protocols for artificial intelligence systems, and more particularly to a method and system for transmitting high-dimensional tensor vectors directly between AI nodes using a cryptographically secured, multiplexed gRPC streaming fabric that eliminates text tokenization overhead.</p>
+
+<!-- ── BACKGROUND ── -->
+<h1>Background of the Invention</h1>
+
+<p>Current AI-to-AI communication relies predominantly on two paradigms, both of which introduce fundamental inefficiencies:</p>
+
+<p><b>(1) HTTP/REST with JSON serialization.</b> In this approach, an AI agent serializes its internal state or instructions into text, transmits that text via HTTP, and a receiving AI agent parses the text back into a usable representation. A 128-dimensional float32 embedding vector (512 bytes of actual data) requires approximately 1,420 bytes when encoded as a JSON array, representing a 2.8-fold expansion of the raw payload. Additionally, every HTTP request resends 400–600 bytes of protocol headers regardless of payload size. When no persistent connection is maintained, TLS handshakes add approximately 4,096 bytes per session. The cumulative overhead per message is 4.3x to 11.9x greater than the raw data payload.</p>
+
+<p><b>(2) Large Language Model (LLM) API calls.</b> In this paradigm, an AI agent converts its internal embedding-space state into natural language tokens, transmits those tokens via HTTP to a remote LLM inference endpoint, and awaits a text response that a downstream AI must re-parse. This introduces full tokenization and detokenization cycles, LLM inference latency of 1–3 seconds, and the lossy semantic compression inherent in converting continuous embedding vectors to discrete text tokens. A single LLM API call to convey a 128-dimensional signal requires approximately 3,900 bytes and 1,000–3,000 milliseconds of total round-trip time.</p>
+
+<p><b>(3) Absence of native AI signal authentication.</b> Neither existing paradigm provides cryptographic authentication tied to the content of individual AI signals. Bearer tokens and API keys authenticate the connection, not the payload. A compromised relay node can inject or modify signals without detection by the receiving AI node.</p>
+
+<p><b>(4) Absence of signal multiplexing.</b> No existing protocol provides a mechanism for two AI agents to simultaneously transmit distinct signals over a shared channel such that each agent can recover only its own signal, or to holographically blend signals so that a single transmission carries the collective state of multiple agents.</p>
+
+<p>There exists a need for a communication fabric specifically designed for AI-to-AI signal transmission that: (a) operates natively in embedding space without tokenization; (b) provides cryptographic authentication at the individual message level tied to both session identity and sequence number; (c) supports both isolated and superposed multi-agent transmission over a shared channel; and (d) enables relay nodes to amplify and audit signals without decrypting them, preserving end-to-end confidentiality.</p>
+
+<!-- ── SUMMARY ── -->
+<h1>Summary of the Invention</h1>
+
+<p>The present invention provides a communication system and method, referred to herein as the CHORUS Fabric, comprising the following novel elements:</p>
+
+<p>A <b>tensor transmission protocol</b> wherein AI signals are represented as high-dimensional float32 vectors and transmitted as packed binary payloads over bidirectional gRPC streams, bypassing text serialization entirely.</p>
+
+<p>A <b>tensor multiplication cipher</b> wherein each payload vector V_raw is encrypted by matrix multiplication with a session key matrix K to produce ciphertext V_enc = V_raw @ K, and decrypted by the receiving node using the inverse key matrix K_inv such that V_dec = V_enc @ K_inv, where K and K_inv are generated via QR decomposition to guarantee numerical invertibility.</p>
+
+<p>A <b>rolling neural watermark authentication scheme</b> wherein each payload is authenticated by injecting a deterministic unit vector derived from SHA-256(session_id &#x2016; sequence_number) prior to encryption, and verified at the receiving node by computing cosine similarity between the decrypted vector and the expected watermark vector, rejecting payloads below a configurable similarity threshold.</p>
+
+<p>An <b>orthogonal isolation mode (Mode A)</b> wherein two transmitting nodes share a single encrypted channel without signal crosstalk, by projecting their respective signals onto orthogonal subspaces W_A and W_B where the product W_A @ W_B approximates the zero matrix, mixing the projections into a single tunnel vector, and recovering each signal independently at the receiver by re-applying the respective projection matrix.</p>
+
+<p>A <b>holographic superposition mode (Mode B)</b> wherein two or more transmitting nodes contribute signals that are arithmetically summed into a single collective vector V_collective = V_A + V_B, allowing the receiving node to observe the consensus or aggregate state of the contributing agents.</p>
+
+<p>A <b>relay node architecture</b> wherein an intermediate node amplifies a ciphertext payload by scalar multiplication V_amp = scalar × V_enc without holding the decryption key, logging a cryptographic fingerprint SHA-256(V_enc) for audit purposes, and preserving end-to-end confidentiality of the plaintext signal.</p>
+
+<p>A <b>control plane key issuance service</b> that generates and distributes ephemeral session key bundles (K, K_inv, watermark_seed) to registered nodes upon request, with configurable time-to-live, decoupling key management from signal transmission.</p>
+
+<!-- ── DRAWINGS ── -->
+<h1>Brief Description of the Drawings</h1>
+
+<p><span class="fig-ref">FIG. 1</span> is a system architecture diagram illustrating the four-node CHORUS Fabric topology comprising a Control Plane, a Source Pod (Transmitting Node), a Relay Node, and a Target Pod (Receiving Node), showing gRPC stream connections and IP addresses from a live transatlantic deployment.</p>
+
+<p><span class="fig-ref">FIG. 2</span> is a flow diagram illustrating the signal watermark injection and encryption process at the transmitting node, including SHA-256 watermark generation, alpha-scaled injection, L2 normalization, and matrix multiplication encryption.</p>
+
+<p><span class="fig-ref">FIG. 3</span> is a flow diagram illustrating the decryption, watermark verification, and mode dispatch process at the receiving node, including the cosine similarity decision gate.</p>
+
+<p><span class="fig-ref">FIG. 4</span> is a diagram illustrating Mode A Orthogonal Isolation, showing projection of two agent signals onto orthogonal subspaces, tunnel vector formation, transmission, and independent signal recovery at the receiver.</p>
+
+<p><span class="fig-ref">FIG. 5</span> is a diagram illustrating Mode B Holographic Superposition, showing arithmetic combination of two agent signals and approximate recovery of each contributing signal at the receiver.</p>
+
+<p><span class="fig-ref">FIG. 6</span> is a diagram illustrating the Relay Node architecture, showing scalar amplification of ciphertext, SHA-256 fingerprint audit logging, and forwarding to the target node without access to the decryption key.</p>
+
+<p><span class="fig-ref">FIG. 7</span> is a sequence diagram of the Control Plane key issuance lifecycle, including node registration, session key bundle generation, TTL-governed expiry, and re-registration flow.</p>
+
+<p><span class="fig-ref">FIG. 8</span> is a benchmark results chart showing measured per-chunk round-trip latency distributions and bandwidth comparisons for all three transmission modes across a live transatlantic deployment (US East to Germany West Central, 7,766 total transmissions).</p>
+
+<!-- ── DETAILED DESCRIPTION ── -->
+<div class="page-break"></div>
+<h1>Detailed Description of the Preferred Embodiments</h1>
+
+<p>The following detailed description sets forth specific embodiments of the CHORUS Fabric. The embodiments described herein are illustrative and not intended to limit the scope of the invention as defined by the claims.</p>
+
+<h2><span class="section-num">I.</span> System Architecture</h2>
+
+<p>Referring to <span class="fig-ref">FIG. 1</span>, the CHORUS Fabric comprises four primary node types deployed as networked services communicating over gRPC using Protocol Buffer-encoded messages.</p>
+
+<h3>(a) Control Plane Node</h3>
+<p>The Control Plane Node 100 is a key issuance service that maintains a registry of active sessions. Upon receiving a registration request from a transmitting or receiving node, the Control Plane generates an ephemeral key bundle comprising: an encryption matrix K of dimension d×d; a decryption matrix K_inv of dimension d×d; a watermark seed string; a universally unique session identifier; and a session expiry timestamp equal to the current time plus a configurable time-to-live (TTL). In a preferred embodiment the TTL is 7,200 seconds. The Control Plane exposes three gRPC remote procedure calls: RegisterAndRequestKey, RequestOrthogonalProjections, and GetRelayInstruction.</p>
+
+<h3>(b) Source Pod (Transmitting Node)</h3>
+<p>The Source Pod 110 is an AI agent node that generates high-dimensional signal vectors and transmits them to a downstream target. The Source Pod registers with the Control Plane to obtain a session key bundle, constructs payload vectors according to the selected transmission mode (Direct, Isolation, or Superposition), injects a rolling neural watermark, encrypts the vector using the session key, and initiates a bidirectional gRPC stream to either the Relay Node or the Target Pod directly. In the preferred embodiment, Source Pods are deployed as containerized Python services.</p>
+
+<h3>(c) Relay Node</h3>
+<p>The Relay Node 120 is an intermediate forwarding node that receives ciphertext payload streams, applies linear scalar amplification to each ciphertext vector without decrypting it, logs a SHA-256 cryptographic fingerprint of each payload for audit purposes, and forwards the amplified ciphertext to the Target Pod. Critically, the Relay Node does not hold the decryption key K_inv at any time, preserving end-to-end confidentiality between the Source Pod and the Target Pod. The Relay Node exposes a bidirectional gRPC streaming RPC (RelayStream) and employs a background thread with a bounded queue for collecting downstream acknowledgements.</p>
+
+<h3>(d) Target Pod (Receiving Node)</h3>
+<p>The Target Pod 130 is an AI agent node that receives encrypted payload streams over gRPC, decrypts each payload using session key K_inv obtained from the Control Plane, verifies the rolling neural watermark, dispatches the decrypted signal to a mode-specific handler, and returns per-payload acknowledgements containing the sequence number, verification status, signal norm, and processing status. The Target Pod exposes a bidirectional gRPC streaming RPC (StreamSignal).</p>
+
+<h2><span class="section-num">II.</span> Tensor Multiplication Cipher</h2>
+
+<p>The CHORUS Fabric employs a tensor multiplication cipher for payload encryption. This cipher is specifically suited to high-dimensional float32 vectors because the encryption operation (matrix multiplication) is structurally identical to the linear transformations performed inside neural network inference pipelines, enabling hardware acceleration on existing AI processors without dedicated cryptographic co-processors.</p>
+
+<h3>Key Generation</h3>
+<p>Given a signal dimension d, the Control Plane generates a random matrix A of shape (d, d) with entries drawn from a standard normal distribution. QR decomposition is applied to A to obtain an orthogonal matrix Q. A random positive diagonal scaling matrix S is generated with diagonal entries drawn uniformly from a range ensuring a well-conditioned key. The encryption key is defined as:</p>
+<span class="formula">K = Q @ S</span>
+<p>The decryption key is:</p>
+<span class="formula">K_inv = S_inv @ Q_transpose</span>
+<p>where S_inv is the elementwise reciprocal of the diagonal of S. The product K @ K_inv equals the identity matrix I within numerical floating-point precision. In an experimental implementation with d=128, the identity reconstruction error ‖K @ K_inv − I‖ was measured at 1.86×10⁻¹⁵. All key arithmetic is performed in float64 precision; keys are downcast to float32 only for wire transmission.</p>
+
+<h3>Encryption</h3>
+<p>Given plaintext signal vector V_raw of shape (d,) and encryption key matrix K of shape (d, d):</p>
+<span class="formula">V_enc = cast_to_float32( cast_to_float64(V_raw) @ cast_to_float64(K) )</span>
+
+<h3>Decryption</h3>
+<p>Given ciphertext vector V_enc of shape (d,) and decryption key matrix K_inv of shape (d, d):</p>
+<span class="formula">V_dec = cast_to_float32( cast_to_float64(V_enc) @ cast_to_float64(K_inv) )</span>
+
+<h2><span class="section-num">III.</span> Rolling Neural Watermark</h2>
+
+<p>The rolling neural watermark provides per-payload cryptographic authentication tied to both the session identity and the message sequence number, as illustrated in <span class="fig-ref">FIG. 2</span> and <span class="fig-ref">FIG. 3</span>.</p>
+
+<h3>Watermark Vector Generation</h3>
+<p>For a session with watermark seed string <i>ws</i> and a payload with sequence number <i>n</i>, the expected watermark unit vector W(n) is generated as follows:</p>
+<span class="formula">hash_bytes = SHA-256( ws.encode('utf-8') + str(n).encode('utf-8') )</span>
+<span class="formula">seed_int   = int.from_bytes(hash_bytes, byteorder='big') mod (2^64)</span>
+<span class="formula">R          = random_vector(dim=d, seed=seed_int)   // seeded PRNG</span>
+<span class="formula">W(n)       = R / ‖R‖                               // L2 normalization</span>
+
+<h3>Watermark Injection</h3>
+<p>Prior to encryption, the watermark is injected into the signal vector:</p>
+<span class="formula">V_wm = normalize( V_raw + alpha × W(n) )</span>
+<p>where alpha is an injection strength hyperparameter (default 0.1 in the preferred embodiment) and normalize denotes L2 normalization to the unit sphere. The watermarked vector V_wm is then encrypted as described in Section II.</p>
+
+<h3>Watermark Verification</h3>
+<p>At the receiving node, following decryption of V_dec, the watermark is verified by computing the cosine similarity between the decrypted vector and the expected watermark vector W(n) recomputed from the shared seed and the received sequence number:</p>
+<span class="formula">similarity = dot(V_dec, W(n)) / ( ‖V_dec‖ × ‖W(n)‖ )</span>
+<span class="formula">verified   = ( similarity >= threshold )       // default threshold = 0.95</span>
+<p>Payloads with similarity below the threshold are rejected. This mechanism prevents replay attacks because each sequence number n produces a distinct W(n), making replayed payloads from earlier sequence numbers fail verification. It prevents injection attacks because generating a valid watermark requires knowledge of the session-specific seed ws. In the experimental transatlantic deployment, 7,766 consecutive payloads across 13 independent benchmark runs achieved 100% watermark verification.</p>
+
+<h2><span class="section-num">IV.</span> Mode A: Orthogonal Isolation</h2>
+
+<p>Mode A enables two AI agents (Agent A and Agent B) to share a single encrypted channel while transmitting independent signals, such that each agent recovers only its own signal at the receiving node, as illustrated in <span class="fig-ref">FIG. 4</span>.</p>
+
+<h3>Projection Pair Generation</h3>
+<p>The Control Plane generates a pair of projection matrices (W_A, W_B) of shape (d, d) via QR decomposition of a random matrix, arranged such that:</p>
+<span class="formula">W_A @ W_B_transpose ≈ 0  (zero matrix)</span>
+<p>In the preferred embodiment with d=128, the maximum absolute element of the product W_A @ W_B_transpose has been measured at less than 1×10⁻⁶. These projection matrices are transmitted to both transmitting and receiving nodes as part of the Mode A session bundle.</p>
+
+<h3>Signal Projection and Mixing at Transmitter</h3>
+<span class="formula">P_A     = W_A @ V_A         // project Agent A signal onto subspace W_A</span>
+<span class="formula">P_B     = W_B @ V_B         // project Agent B signal onto subspace W_B</span>
+<span class="formula">V_tunnel = normalize(P_A + P_B)    // form tunnel vector</span>
+<p>V_tunnel is then watermarked and encrypted per Sections III and II before transmission.</p>
+
+<h3>Signal Recovery at Receiver</h3>
+<p>After decryption and watermark verification of V_dec:</p>
+<span class="formula">V_A_recovered = W_A @ V_dec</span>
+<span class="formula">V_B_recovered = W_B @ V_dec</span>
+<p>The cross-signal crosstalk, defined as ‖W_A @ V_B‖ / ‖V_B‖, was experimentally measured at 0.000006% for d=128. The recovery cosine similarity between V_A_recovered and the original V_A was measured at 1.0 (perfect reconstruction to floating-point precision).</p>
+
+<h2><span class="section-num">V.</span> Mode B: Holographic Superposition</h2>
+
+<p>Mode B enables two or more AI agents to holographically blend their signals into a single transmission vector representing their aggregate state, as illustrated in <span class="fig-ref">FIG. 5</span>.</p>
+
+<h3>Signal Superposition</h3>
+<span class="formula">V_collective = normalize(V_A + V_B)</span>
+<p>V_collective is then watermarked and encrypted per Sections III and II before transmission.</p>
+
+<h3>Signal Recovery</h3>
+<p>After decryption, the approximate contribution of each agent can be estimated by projecting V_dec onto the original signal directions. In experimental measurements with two equal-magnitude contributors and d=128, the cosine similarity between V_dec and each of V_A and V_B was approximately 0.70. Mode B is suited for applications where the collective or consensus AI state is the primary signal of interest, such as multi-agent voting, ensemble model agreement, or distributed sensor fusion.</p>
+
+<h2><span class="section-num">VI.</span> Relay Node Architecture</h2>
+
+<p>The Relay Node provides signal amplification and audit logging without compromising end-to-end confidentiality, as illustrated in <span class="fig-ref">FIG. 6</span>. This architecture is analogous to a photonic amplifier in optical fiber networks.</p>
+
+<h3>Ciphertext Amplification</h3>
+<p>Upon receiving ciphertext vector V_enc, the Relay Node applies:</p>
+<span class="formula">V_amp = amplification_factor × V_enc</span>
+<p>This operation is mathematically safe on ciphertext because decryption is a linear operation:</p>
+<span class="formula">decrypt(V_amp) = (amplification_factor × V_enc) @ K_inv
+              = amplification_factor × (V_enc @ K_inv)
+              = amplification_factor × V_raw_watermarked</span>
+<p>The receiving node compensates for the amplification factor using a pre-shared relay instruction obtained from the Control Plane via the GetRelayInstruction RPC.</p>
+
+<h3>Audit Fingerprinting</h3>
+<p>For each relayed payload, the Relay Node computes and stores:</p>
+<span class="formula">fingerprint = SHA-256( V_enc.tobytes() )</span>
+<p>This fingerprint provides a tamper-evident audit log of all relayed ciphertexts without revealing any information about the plaintext content.</p>
+
+<h2><span class="section-num">VII.</span> Control Plane Key Management</h2>
+
+<p>The Control Plane implements Option B key management, illustrated in <span class="fig-ref">FIG. 7</span>, wherein key generation is centralized in a dedicated ephemeral service separate from the signal transmission path.</p>
+
+<h3>Session Lifecycle</h3>
+<p>(1) A Source Pod sends a PodRegistration message containing its pod_id, requested session parameters, and mode flags.<br>
+(2) The Control Plane generates a SessionKeyBundle containing: session_id (UUID v4), K (serialized as bytes), K_inv (serialized as bytes), watermark_seed (32-character hex string), expires_at (Unix timestamp = current_time + TTL), and optionally W_A, W_B matrices for Mode A sessions.<br>
+(3) The SessionKeyBundle is returned to the Source Pod over the RegisterAndRequestKey RPC.<br>
+(4) The corresponding Target Pod obtains its bundle (including K_inv) using the session_id as a rendezvous token.<br>
+(5) Upon TTL expiry, both nodes must re-register; payloads using expired session keys fail watermark verification.</p>
+
+<h3>Key Serialization</h3>
+<p>Key matrices are serialized as raw float32 bytes (d × d × 4 bytes per matrix) for transmission. Upon receipt, matrices are deserialized and upcast to float64 for all arithmetic operations.</p>
+
+<h2><span class="section-num">VIII.</span> Wire Protocol</h2>
+
+<p>Each CHORUS payload is transmitted as a TensorPayload Protocol Buffer message comprising: data (bytes — packed float32 array of length d × 4), dim (int32 — embedding dimension), seq_len (int32), pod_id (string), session_id (string), mode (string — "direct", "isolation", or "superposition"), watermark (bytes — packed float32 watermark vector), and seq_num (int32 — monotonically increasing sequence counter).</p>
+
+<p>Three gRPC services are defined: ControlPlane (key issuance), TargetPod exposing StreamSignal as a bidirectional streaming RPC of type (stream TensorPayload) → (stream SignalAck), and RelayNode exposing RelayStream as a bidirectional streaming RPC of type (stream TensorPayload) → (stream RelayAck).</p>
+
+<h2><span class="section-num">IX.</span> Experimental Results</h2>
+
+<p>The CHORUS Fabric was deployed as a four-container system on Microsoft Azure Container Instances across two geographic regions: US East (Virginia) and Germany West Central (Frankfurt), representing a transatlantic deployment path of approximately 8,000 km.</p>
+
+<p>Container endpoints: Control Plane at chorus-cp-de.germanywestcentral.azurecontainer.io:50051 (public IP 4.182.111.109); Target Pod at chorus-target-de.germanywestcentral.azurecontainer.io:50053 (public IP 98.67.201.195); Relay Node at chorus-relay-us.eastus.azurecontainer.io:50052 (public IP 20.237.21.245).</p>
+
+<p>A benchmark of 7,766 total payload transmissions was conducted across 13 independent runs, each comprising 200 payloads per mode with 5 warmup payloads discarded. Results are shown in <span class="fig-ref">FIG. 8</span>:</p>
+
+<ul>
+  <li>Direct mode: p50 RTT = 179 ms, p95 = 300 ms, p99 = 1,596 ms</li>
+  <li>Isolation (Mode A): p50 RTT = 311 ms, p95 = 381 ms, p99 = 1,685 ms</li>
+  <li>Superposition (Mode B): p50 RTT = 1,274 ms, p95 = 1,422 ms</li>
+  <li>Watermark verification: 7,766/7,766 (100%) across all modes and runs</li>
+  <li>Mode A crosstalk: 0.000006%; Mode A recovery cosine similarity: 1.0</li>
+  <li>Key invertibility identity error: 1.86×10⁻¹⁵</li>
+</ul>
+
+<p>The Direct mode p50 RTT of 179 ms equals the theoretical minimum for the physical transatlantic round-trip distance, confirming that the tensor multiplication cipher and watermark injection add no measurable latency overhead. Bandwidth consumption per payload was 548 bytes, compared to 2,440 bytes for equivalent HTTP/REST JSON communication (4.45× reduction) and 3,900 bytes for equivalent LLM API communication (7.1× reduction).</p>
+
+<!-- ── CLAIMS ── -->
+<div class="page-break"></div>
+<h1>Claims</h1>
+
+<p style="font-style:italic; font-size:10pt;">(Note: Claims in a provisional application are optional and non-binding. These claims are provided to define the scope of the invention and should be reviewed and refined with qualified patent counsel before filing the non-provisional application.)</p>
+
+<div class="claim"><b>1.</b> A computer-implemented method for machine-to-machine communication between artificial intelligence nodes, the method comprising:
+  <div class="claim-sub">generating, at a first AI node, a signal vector of dimension d representing internal state or instructions of the first AI node, wherein the signal vector comprises d floating-point numeric values;</div>
+  <div class="claim-sub">obtaining, from a key issuance service, an encryption key matrix K of shape d×d;</div>
+  <div class="claim-sub">encrypting the signal vector by computing a matrix product V_enc = V_raw @ K;</div>
+  <div class="claim-sub">transmitting V_enc as a binary payload over a bidirectional streaming remote procedure call to a second AI node; and</div>
+  <div class="claim-sub">at the second AI node, obtaining a decryption key matrix K_inv and recovering the original signal by computing V_dec = V_enc @ K_inv;</div>
+  wherein the signal vector is transmitted without conversion to text tokens at any point in the transmission path.
+</div>
+
+<div class="claim"><b>2.</b> The method of claim 1, further comprising:
+  <div class="claim-sub">prior to encryption, computing a watermark unit vector W(n) as a function of a session-specific seed and a monotonically increasing sequence number n, wherein W(n) is derived from a cryptographic hash of the concatenation of the seed and n;</div>
+  <div class="claim-sub">injecting the watermark by computing V_wm = normalize(V_raw + alpha × W(n));</div>
+  <div class="claim-sub">at the receiving node, recomputing W(n) from the shared seed and received sequence number; and</div>
+  <div class="claim-sub">verifying the payload by computing cosine similarity between V_dec and W(n) and rejecting the payload if the similarity is below a threshold.</div>
+</div>
+
+<div class="claim"><b>3.</b> The method of claim 1, wherein the encryption key matrix K and decryption key matrix K_inv are generated by:
+  <div class="claim-sub">performing QR decomposition on a random matrix to obtain an orthogonal matrix Q;</div>
+  <div class="claim-sub">generating a positive diagonal scaling matrix S; and</div>
+  <div class="claim-sub">computing K = Q @ S and K_inv = S_inv @ Q_transpose;</div>
+  wherein K @ K_inv equals the identity matrix within floating-point numerical precision.
+</div>
+
+<div class="claim"><b>4.</b> The method of claim 1, further comprising:
+  <div class="claim-sub">generating a pair of projection matrices W_A and W_B such that W_A @ W_B_transpose approximates the zero matrix;</div>
+  <div class="claim-sub">at a first transmitting agent, projecting signal V_A to obtain P_A = W_A @ V_A;</div>
+  <div class="claim-sub">at a second transmitting agent, projecting signal V_B to obtain P_B = W_B @ V_B;</div>
+  <div class="claim-sub">forming a tunnel vector V_tunnel = normalize(P_A + P_B) and transmitting V_tunnel as a single payload; and</div>
+  <div class="claim-sub">at the receiving node, independently recovering V_A_recovered = W_A @ V_dec and V_B_recovered = W_B @ V_dec;</div>
+  wherein the two signals are recoverable independently without knowledge of each other.
+</div>
+
+<div class="claim"><b>5.</b> The method of claim 1, further comprising:
+  <div class="claim-sub">forming a collective vector V_collective = normalize(V_A + V_B) from signal vectors contributed by two or more AI agents; and</div>
+  <div class="claim-sub">transmitting V_collective as a single payload representing the aggregate state of all contributing agents.</div>
+</div>
+
+<div class="claim"><b>6.</b> A system for cryptographically authenticated machine-to-machine AI signal relay, the system comprising:
+  <div class="claim-sub">a relay processor configured to receive an encrypted signal vector V_enc transmitted from a source AI node;</div>
+  <div class="claim-sub">apply a scalar amplification factor to produce V_amp = factor × V_enc without performing decryption of V_enc;</div>
+  <div class="claim-sub">compute a cryptographic fingerprint of the received ciphertext as SHA-256(V_enc.tobytes()) and store the fingerprint in an audit log; and</div>
+  <div class="claim-sub">forward V_amp to a target AI node;</div>
+  wherein the relay processor does not possess or receive a decryption key for V_enc at any time, such that the plaintext content of V_enc remains confidential from the relay processor.
+</div>
+
+<div class="claim"><b>7.</b> The system of claim 6, wherein scalar multiplication of ciphertext is equivalent, after decryption at the target AI node by the target's decryption key K_inv, to scalar multiplication of the original plaintext signal, such that decrypt(V_amp) = factor × decrypt(V_enc), enabling the receiving node to compensate for the amplification factor using a pre-shared relay instruction.</div>
+
+<div class="claim"><b>8.</b> A key management system for AI-to-AI communication sessions, the system comprising:
+  <div class="claim-sub">a control plane service configured to receive registration requests from AI nodes and to generate, for each session, an ephemeral session key bundle comprising an encryption matrix K, a decryption matrix K_inv, a watermark seed, a session identifier, and a session expiry time;</div>
+  <div class="claim-sub">distribute K and the watermark seed to transmitting nodes;</div>
+  <div class="claim-sub">distribute K_inv and the watermark seed to receiving nodes;</div>
+  <div class="claim-sub">invalidate sessions upon expiry such that subsequent payloads using expired keys fail authentication; and</div>
+  <div class="claim-sub">upon request, generate pairs of orthogonal projection matrices (W_A, W_B) for multi-signal isolation sessions.</div>
+</div>
+
+<div class="claim"><b>9.</b> A machine-readable non-transitory medium storing instructions that, when executed by a processor, implement a communication protocol comprising a Protocol Buffer message schema defining a payload message containing: a binary-packed floating-point vector field; an embedding dimension field; a session identifier field; a transmission mode field selecting among at least direct, isolation, and superposition modes; a monotonically increasing sequence number field; and a watermark vector field; wherein said message is transmitted as a binary payload over a gRPC streaming channel without text encoding of the vector data.</div>
+
+<!-- ── ABSTRACT ── -->
+<div class="page-break"></div>
+<h1>Abstract</h1>
+
+<p>The CHORUS Fabric is a machine-to-machine communication protocol for artificial intelligence systems that transmits high-dimensional float32 tensor vectors directly over bidirectional gRPC streams, bypassing text tokenization. The system comprises: (1) a tensor multiplication cipher wherein signals are encrypted and decrypted by matrix multiplication with session-specific key matrices generated via QR decomposition; (2) a rolling neural watermark that injects a SHA-256-derived deterministic unit vector into each payload before encryption, providing per-message authentication bound to session identity and sequence number; (3) an orthogonal isolation mode enabling two AI agents to share a channel without signal crosstalk using orthogonal projection matrix pairs; (4) a holographic superposition mode arithmetically combining multiple agent signals into a single collective transmission vector; (5) a relay node that amplifies ciphertext by scalar multiplication without holding a decryption key, preserving end-to-end confidentiality while logging SHA-256 payload fingerprints for audit; and (6) a control plane key issuance service distributing ephemeral session key bundles with configurable time-to-live. Transatlantic deployment on Azure Container Instances (US East to Germany West Central) demonstrated 179 millisecond p50 round-trip latency with 100% watermark verification across 7,766 transmissions, and 4.45× lower bandwidth consumption than equivalent HTTP/REST JSON communication.</p>
+
+<!-- ── INVENTOR ── -->
+<div class="page-break"></div>
+<h1>Inventor Information</h1>
+
+<p><i>(Complete this section and transfer to USPTO Form SB/16 when filing at patentcenter.uspto.gov)</i></p>
+
+<table style="width:100%; border-collapse:collapse; font-size:11pt; margin-top:12pt;">
+  <tr style="border-bottom:1px solid #000;">
+    <td style="padding:8pt; font-weight:bold; width:35%;">Inventor Full Legal Name</td>
+    <td style="padding:8pt;">Amin Parva</td>
+  </tr>
+  <tr style="border-bottom:1px solid #000;">
+    <td style="padding:8pt; font-weight:bold;">City of Residence</td>
+    <td style="padding:8pt;">Mission Viejo</td>
+  </tr>
+  <tr style="border-bottom:1px solid #000;">
+    <td style="padding:8pt; font-weight:bold;">State / Country of Residence</td>
+    <td style="padding:8pt;">CA, United States</td>
+  </tr>
+  <tr style="border-bottom:1px solid #000;">
+    <td style="padding:8pt; font-weight:bold;">Citizenship</td>
+    <td style="padding:8pt;">United States</td>
+  </tr>
+  <tr style="border-bottom:1px solid #000;">
+    <td style="padding:8pt; font-weight:bold;">Mailing Address</td>
+    <td style="padding:8pt;">39 Aliso Ridge Loop, Mission Viejo, CA 92691, United States</td>
+  </tr>
+  <tr style="border-bottom:1px solid #000;">
+    <td style="padding:8pt; font-weight:bold;">Email</td>
+    <td style="padding:8pt;">parvaamin@gmail.com</td>
+  </tr>
+  <tr style="border-bottom:1px solid #000;">
+    <td style="padding:8pt; font-weight:bold;">Entity Status</td>
+    <td style="padding:8pt;">&#x2611; Micro Entity ($160)</td>
+  </tr>
+  <tr>
+    <td style="padding:8pt; font-weight:bold;">Title of Invention</td>
+    <td style="padding:8pt;">The Chorus Fabric: High-Dimensional Signal Orchestration for Machine-to-Machine Communication</td>
+  </tr>
+</table>
+
+</body>
+</html>

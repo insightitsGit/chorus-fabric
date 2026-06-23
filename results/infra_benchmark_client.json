@@ -1,0 +1,9 @@
+{
+  "cpu": 2.0,
+  "image": "chorusacrd7a6d0.azurecr.io/chorus-protocol:latest",
+  "location": "eastus",
+  "memory": 2.0,
+  "name": "chorus-benchmark",
+  "startTime": null,
+  "state": "Terminated"
+}

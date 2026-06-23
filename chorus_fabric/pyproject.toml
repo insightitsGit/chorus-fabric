@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chorus-fabric"
+version = "0.1.0"
+description = "High-dimensional tensor communication fabric for AI-to-AI signaling — Patent Pending US 64/096,156"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Amin Parva", email = "parvaamin@gmail.com" }]
+keywords = [
+    "AI", "machine-to-machine", "M2M", "tensor", "gRPC",
+    "embedding", "LLM", "protocol", "cryptography", "multiagent"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: System :: Networking",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "grpcio>=1.64.0",
+    "grpcio-tools>=1.64.0",
+    "protobuf>=5.26.0",
+    "numpy>=1.24.0,<2.0.0",
+    "torch>=2.0.0",
+]
+
+[project.optional-dependencies]
+server = ["chorus-fabric"]
+dev = ["pytest>=7.0", "pytest-asyncio", "black", "ruff"]
+
+[project.urls]
+Homepage = "https://github.com/aminparva84/chorus-fabric"
+Documentation = "https://github.com/aminparva84/chorus-fabric#readme"
+Repository = "https://github.com/aminparva84/chorus-fabric"
+"Bug Tracker" = "https://github.com/aminparva84/chorus-fabric/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["chorus_fabric*"]
+
+[tool.setuptools.package-data]
+chorus_fabric = ["proto/*.proto"]

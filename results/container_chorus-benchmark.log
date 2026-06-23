@@ -1,0 +1,102 @@
+{"ts": "2026-06-22T19:27:10.868192+00:00", "event": "chunk_ack", "source": "eastus", "target": "germanywestcentral", "run_id": 43, "seq": 184, "rtt_ms": 35463.797, "bytes": 512, "norm": 0, "verified": true, "status": "forwarded_no_ack"}
+{"ts": "2026-06-22T19:27:10.868302+00:00", "ev": "chunk_ack", "seq_num": 184, "rtt_ms": 35463.8, "verified": true, "status": "forwarded_no_ack", "mode": "direct"}
+{"ts": "2026-06-22T19:27:11.066545+00:00", "event": "chunk_ack", "source": "eastus", "target": "germanywestcentral", "run_id": 43, "seq": 185, "rtt_ms": 35656.104, "bytes": 512, "norm": 0, "verified": true, "status": "forwarded_no_ack"}
+{"ts": "2026-06-22T19:27:11.066681+00:00", "ev": "chunk_ack", "seq_num": 185, "rtt_ms": 35656.1, "verified": true, "status": "forwarded_no_ack", "mode": "direct"}
+{"ts": "2026-06-22T19:27:11.258220+00:00", "event": "chunk_ack", "source": "eastus", "target": "germanywestcentral", "run_id": 43, "seq": 186, "rtt_ms": 35853.533, "bytes": 512, "norm": 0, "verified": true, "status": "forwarded_no_ack"}
+{"ts": "2026-06-22T19:27:11.258332+00:00", "ev": "chunk_ack", "seq_num": 186, "rtt_ms": 35853.53, "verified": true, "status": "forwarded_no_ack", "mode": "direct"}
+{"ts": "2026-06-22T19:27:11.450303+00:00", "event": "chunk_ack", "source": "eastus", "target": "germanywestcentral", "run_id": 43, "seq": 187, "rtt_ms": 36044.609, "bytes": 512, "norm": 0, "verified": true, "status": "forwarded_no_ack"}
+{"ts": "2026-06-22T19:27:11.450418+00:00", "ev": "chunk_ack", "seq_num": 187, "rtt_ms": 36044.61, "verified": true, "status": "forwarded_no_ack", "mode": "direct"}
+{"ts": "2026-06-22T19:27:11.641383+00:00", "event": "chunk_ack", "source": "eastus", "target": "germanywestcentral", "run_id": 43, "seq": 188, "rtt_ms": 36235.275, "bytes": 512, "norm": 0, "verified": true, "status": "forwarded_no_ack"}
+{"ts": "2026-06-22T19:27:11.641498+00:00", "ev": "chunk_ack", "seq_num": 188, "rtt_ms": 36235.27, "verified": true, "status": "forwarded_no_ack", "mode": "direct"}
+{"ts": "2026-06-22T19:27:11.832927+00:00", "event": "chunk_ack", "source": "eastus", "target": "germanywestcentral", "run_id": 43, "seq": 189, "rtt_ms": 36425.769, "bytes": 512, "norm": 0, "verified": true, "status": "forwarded_no_ack"}
+{"ts": "2026-06-22T19:27:11.833036+00:00", "ev": "chunk_ack", "seq_num": 189, "rtt_ms": 36425.77, "verified": true, "status": "forwarded_no_ack", "mode": "direct"}
+{"ts": "2026-06-22T19:27:12.024072+00:00", "event": "chunk_ack", "source": "eastus", "target": "germanywestcentral", "run_id": 43, "seq": 190, "rtt_ms": 36616.522, "bytes": 512, "norm": 0, "verified": true, "status": "forwarded_no_ack"}
+{"ts": "2026-06-22T19:27:12.024187+00:00", "ev": "chunk_ack", "seq_num": 190, "rtt_ms": 36616.52, "verified": true, "status": "forwarded_no_ack", "mode": "direct"}
+{"ts": "2026-06-22T19:27:12.215231+00:00", "event": "chunk_ack", "source": "eastus", "target": "germanywestcentral", "run_id": 43, "seq": 191, "rtt_ms": 36806.718, "bytes": 512, "norm": 0, "verified": true, "status": "forwarded_no_ack"}
+{"ts": "2026-06-22T19:27:12.215366+00:00", "ev": "chunk_ack", "seq_num": 191, "rtt_ms": 36806.72, "verified": true, "status": "forwarded_no_ack", "mode": "direct"}
+{"ts": "2026-06-22T19:27:12.408209+00:00", "event": "chunk_ack", "source": "eastus", "target": "germanywestcentral", "run_id": 43, "seq": 192, "rtt_ms": 36996.084, "bytes": 512, "norm": 0, "verified": true, "status": "forwarded_no_ack"}
+{"ts": "2026-06-22T19:27:12.408327+00:00", "ev": "chunk_ack", "seq_num": 192, "rtt_ms": 36996.08, "verified": true, "status": "forwarded_no_ack", "mode": "direct"}
+{"ts": "2026-06-22T19:27:12.599572+00:00", "event": "chunk_ack", "source": "eastus", "target": "germanywestcentral", "run_id": 43, "seq": 193, "rtt_ms": 37188.077, "bytes": 512, "norm": 0, "verified": true, "status": "forwarded_no_ack"}
+{"ts": "2026-06-22T19:27:12.599724+00:00", "ev": "chunk_ack", "seq_num": 193, "rtt_ms": 37188.08, "verified": true, "status": "forwarded_no_ack", "mode": "direct"}
+{"ts": "2026-06-22T19:27:12.790765+00:00", "event": "chunk_ack", "source": "eastus", "target": "germanywestcentral", "run_id": 43, "seq": 194, "rtt_ms": 37378.633, "bytes": 512, "norm": 0, "verified": true, "status": "forwarded_no_ack"}
+{"ts": "2026-06-22T19:27:12.790878+00:00", "ev": "chunk_ack", "seq_num": 194, "rtt_ms": 37378.63, "verified": true, "status": "forwarded_no_ack", "mode": "direct"}
+{"ts": "2026-06-22T19:27:12.982590+00:00", "event": "chunk_ack", "source": "eastus", "target": "germanywestcentral", "run_id": 43, "seq": 195, "rtt_ms": 37569.2, "bytes": 512, "norm": 0, "verified": true, "status": "forwarded_no_ack"}
+{"ts": "2026-06-22T19:27:12.982769+00:00", "ev": "chunk_ack", "seq_num": 195, "rtt_ms": 37569.2, "verified": true, "status": "forwarded_no_ack", "mode": "direct"}
+{"ts": "2026-06-22T19:27:13.176440+00:00", "event": "chunk_ack", "source": "eastus", "target": "germanywestcentral", "run_id": 43, "seq": 196, "rtt_ms": 37760.077, "bytes": 512, "norm": 0, "verified": true, "status": "forwarded_no_ack"}
+{"ts": "2026-06-22T19:27:13.176550+00:00", "ev": "chunk_ack", "seq_num": 196, "rtt_ms": 37760.08, "verified": true, "status": "forwarded_no_ack", "mode": "direct"}
+{"ts": "2026-06-22T19:27:13.367952+00:00", "event": "chunk_ack", "source": "eastus", "target": "germanywestcentral", "run_id": 43, "seq": 197, "rtt_ms": 37953.031, "bytes": 512, "norm": 0, "verified": true, "status": "forwarded_no_ack"}
+{"ts": "2026-06-22T19:27:13.368076+00:00", "ev": "chunk_ack", "seq_num": 197, "rtt_ms": 37953.03, "verified": true, "status": "forwarded_no_ack", "mode": "direct"}
+{"ts": "2026-06-22T19:27:13.564835+00:00", "event": "chunk_ack", "source": "eastus", "target": "germanywestcentral", "run_id": 43, "seq": 198, "rtt_ms": 38143.266, "bytes": 512, "norm": 0, "verified": true, "status": "forwarded_no_ack"}
+{"ts": "2026-06-22T19:27:13.564946+00:00", "ev": "chunk_ack", "seq_num": 198, "rtt_ms": 38143.27, "verified": true, "status": "forwarded_no_ack", "mode": "direct"}
+{"ts": "2026-06-22T19:27:13.756890+00:00", "event": "chunk_ack", "source": "eastus", "target": "germanywestcentral", "run_id": 43, "seq": 199, "rtt_ms": 38339.232, "bytes": 512, "norm": 0, "verified": true, "status": "forwarded_no_ack"}
+{"ts": "2026-06-22T19:27:13.757005+00:00", "ev": "chunk_ack", "seq_num": 199, "rtt_ms": 38339.23, "verified": true, "status": "forwarded_no_ack", "mode": "direct"}
+{"ts": "2026-06-22T19:27:13.947603+00:00", "event": "chunk_ack", "source": "eastus", "target": "germanywestcentral", "run_id": 43, "seq": 200, "rtt_ms": 38530.431, "bytes": 512, "norm": 0, "verified": true, "status": "forwarded_no_ack"}
+2026-06-22 19:27:13,947  INFO      chorus.benchmark  [direct] seq=200  rtt=38530.4 ms  norm=0.0000  status=forwarded_no_ack
+{"ts": "2026-06-22T19:27:13.947749+00:00", "ev": "chunk_ack", "seq_num": 200, "rtt_ms": 38530.43, "verified": true, "status": "forwarded_no_ack", "mode": "direct"}
+{"ts": "2026-06-22T19:27:14.138873+00:00", "event": "chunk_ack", "source": "eastus", "target": "germanywestcentral", "run_id": 43, "seq": 201, "rtt_ms": 38720.403, "bytes": 512, "norm": 0, "verified": true, "status": "forwarded_no_ack"}
+{"ts": "2026-06-22T19:27:14.138984+00:00", "ev": "chunk_ack", "seq_num": 201, "rtt_ms": 38720.4, "verified": true, "status": "forwarded_no_ack", "mode": "direct"}
+{"ts": "2026-06-22T19:27:14.330333+00:00", "event": "chunk_ack", "source": "eastus", "target": "germanywestcentral", "run_id": 43, "seq": 202, "rtt_ms": 38910.731, "bytes": 512, "norm": 0, "verified": true, "status": "forwarded_no_ack"}
+{"ts": "2026-06-22T19:27:14.330445+00:00", "ev": "chunk_ack", "seq_num": 202, "rtt_ms": 38910.73, "verified": true, "status": "forwarded_no_ack", "mode": "direct"}
+{"ts": "2026-06-22T19:27:14.521262+00:00", "event": "chunk_ack", "source": "eastus", "target": "germanywestcentral", "run_id": 43, "seq": 203, "rtt_ms": 39101.476, "bytes": 512, "norm": 0, "verified": true, "status": "forwarded_no_ack"}
+{"ts": "2026-06-22T19:27:14.521373+00:00", "ev": "chunk_ack", "seq_num": 203, "rtt_ms": 39101.48, "verified": true, "status": "forwarded_no_ack", "mode": "direct"}
+{"ts": "2026-06-22T19:27:14.713049+00:00", "event": "chunk_ack", "source": "eastus", "target": "germanywestcentral", "run_id": 43, "seq": 204, "rtt_ms": 39291.524, "bytes": 512, "norm": 0, "verified": true, "status": "forwarded_no_ack"}
+{"ts": "2026-06-22T19:27:14.713164+00:00", "ev": "chunk_ack", "seq_num": 204, "rtt_ms": 39291.52, "verified": true, "status": "forwarded_no_ack", "mode": "direct"}
+{"ts": "2026-06-22T19:27:14.904598+00:00", "event": "run_complete", "source": "eastus", "target": "germanywestcentral", "run_id": 43, "mode": "direct", "source_region": "eastus", "target_region": "germanywestcentral", "n_chunks": 200, "total_bytes": 102400, "duration_ms": 39863.5, "throughput_bps": 20550.13, "avg_rtt_ms": 20148.228, "min_rtt_ms": 880.751, "max_rtt_ms": 39291.524, "p50_rtt_ms": 20022.722, "p95_rtt_ms": 37378.633, "p99_rtt_ms": 38910.731, "verified_pct": 100.0, "tamper_count": 0}
+
+============================================================
+  CHORUS Benchmark Run #43  mode=direct
+  eastus  -->  germanywestcentral
+============================================================
+  Chunks:             200
+  Total bytes:    102,400  (0.10 MB)
+  Duration:       39863.5 ms
+  Throughput:        0.02 Mbps
+  RTT avg:        20148.2 ms
+  RTT min/max:    880.8 / 39291.5 ms
+  RTT p50/p95:   20022.7 / 37378.6 ms
+  RTT p99:        38910.7 ms
+  Verified:      100.000%
+  Tamper alerts:        0
+============================================================
+{"ts": "2026-06-22T19:27:14.905358+00:00", "level": "info", "event": "mode_complete", "role": "benchmark", "region": "eastus", "mode": "direct", "avg_rtt_ms": 20148.228, "p99_rtt_ms": 38910.731, "throughput_mbps": 0.021, "verified_pct": 100.0}
+{"ts": "2026-06-22T19:27:14.905417+00:00", "level": "info", "event": "mode_started", "role": "benchmark", "region": "eastus", "mode": "isolation"}
+2026-06-22 19:27:14,905  INFO      chorus.benchmark  
+==================================================
+2026-06-22 19:27:14,905  INFO      chorus.benchmark  Starting mode: isolation
+2026-06-22 19:27:14,905  INFO      chorus.benchmark  ==================================================
+2026-06-22 19:27:14,906  INFO      chorus.client  [bench-eastus] -> Control Plane chorus-cp-de.germanywestcentral.azurecontainer.io:50051
+2026-06-22 19:27:14,907  INFO      chorus.client  [bench-eastus] -> Relay chorus-relay-us.eastus.azurecontainer.io:50052
+2026-06-22 19:27:15,657  INFO      chorus.client  [bench-eastus] Handshake OK  sid=3830146d-272e-4ade-aa41-15d426266950  dim=128  expires=1782163635
+2026-06-22 19:27:15,845  INFO      chorus.client  [bench-eastus] Orthogonal projections received.
+{"ts": "2026-06-22T19:27:16.037876+00:00", "event": "run_started", "source": "eastus", "target": "germanywestcentral", "run_id": 44, "mode": "isolation"}
+2026-06-22 19:27:16,039  INFO      chorus.client  [bench2-eastus] -> Control Plane chorus-cp-de.germanywestcentral.azurecontainer.io:50051
+2026-06-22 19:27:16,039  INFO      chorus.client  [bench2-eastus] -> Relay chorus-relay-us.eastus.azurecontainer.io:50052
+2026-06-22 19:27:16,240  INFO      chorus.client  [bench2-eastus] Handshake OK  sid=14a74c89-622b-457b-ab2e-daf541a8568d  dim=128  expires=1782163636
+2026-06-22 19:27:16,337  INFO      chorus.client  [bench2-eastus] Orthogonal projections received.
+{"ts": "2026-06-22T19:27:16.507228+00:00", "ev": "chunk_ack", "seq_num": 0, "rtt_ms": 167.28, "verified": true, "status": "forwarded_no_ack", "mode": "isolation"}
+2026-06-22 19:27:16,507  INFO      chorus.benchmark  [isolation] seq=0  rtt=167.3 ms  norm=0.0000  status=forwarded_no_ack
+{"ts": "2026-06-22T19:27:16.649757+00:00", "ev": "chunk_ack", "seq_num": 1, "rtt_ms": 296.79, "verified": true, "status": "forwarded_no_ack", "mode": "isolation"}
+{"ts": "2026-06-22T19:27:16.797412+00:00", "ev": "chunk_ack", "seq_num": 2, "rtt_ms": 443.55, "verified": true, "status": "forwarded_no_ack", "mode": "isolation"}
+{"ts": "2026-06-22T19:27:16.945265+00:00", "ev": "chunk_ack", "seq_num": 3, "rtt_ms": 590.61, "verified": true, "status": "forwarded_no_ack", "mode": "isolation"}
+{"ts": "2026-06-22T19:27:17.092915+00:00", "ev": "chunk_ack", "seq_num": 4, "rtt_ms": 737.43, "verified": true, "status": "forwarded_no_ack", "mode": "isolation"}
+{"ts": "2026-06-22T19:27:17.432442+00:00", "event": "chunk_ack", "source": "eastus", "target": "germanywestcentral", "run_id": 44, "seq": 5, "rtt_ms": 884.343, "bytes": 512, "norm": 0, "verified": true, "status": "forwarded_no_ack"}
+{"ts": "2026-06-22T19:27:17.432557+00:00", "ev": "chunk_ack", "seq_num": 5, "rtt_ms": 884.34, "verified": true, "status": "forwarded_no_ack", "mode": "isolation"}
+{"ts": "2026-06-22T19:27:17.623820+00:00", "event": "chunk_ack", "source": "eastus", "target": "germanywestcentral", "run_id": 44, "seq": 6, "rtt_ms": 1076.058, "bytes": 512, "norm": 0, "verified": true, "status": "forwarded_no_ack"}
+{"ts": "2026-06-22T19:27:17.623931+00:00", "ev": "chunk_ack", "seq_num": 6, "rtt_ms": 1076.06, "verified": true, "status": "forwarded_no_ack", "mode": "isolation"}
+{"ts": "2026-06-22T19:27:17.815384+00:00", "event": "chunk_ack", "source": "eastus", "target": "germanywestcentral", "run_id": 44, "seq": 7, "rtt_ms": 1266.894, "bytes": 512, "norm": 0, "verified": true, "status": "forwarded_no_ack"}
+{"ts": "2026-06-22T19:27:17.815495+00:00", "ev": "chunk_ack", "seq_num": 7, "rtt_ms": 1266.89, "verified": true, "status": "forwarded_no_ack", "mode": "isolation"}
+{"ts": "2026-06-22T19:27:18.008408+00:00", "event": "chunk_ack", "source": "eastus", "target": "germanywestcentral", "run_id": 44, "seq": 8, "rtt_ms": 1457.565, "bytes": 512, "norm": 0, "verified": true, "status": "forwarded_no_ack"}
+{"ts": "2026-06-22T19:27:18.008519+00:00", "ev": "chunk_ack", "seq_num": 8, "rtt_ms": 1457.56, "verified": true, "status": "forwarded_no_ack", "mode": "isolation"}
+{"ts": "2026-06-22T19:27:18.199120+00:00", "event": "chunk_ack", "source": "eastus", "target": "germanywestcentral", "run_id": 44, "seq": 9, "rtt_ms": 1649.44, "bytes": 512, "norm": 0, "verified": true, "status": "forwarded_no_ack"}
+{"ts": "2026-06-22T19:27:18.199232+00:00", "ev": "chunk_ack", "seq_num": 9, "rtt_ms": 1649.44, "verified": true, "status": "forwarded_no_ack", "mode": "isolation"}
+{"ts": "2026-06-22T19:27:18.394970+00:00", "event": "chunk_ack", "source": "eastus", "target": "germanywestcentral", "run_id": 44, "seq": 10, "rtt_ms": 1839.312, "bytes": 512, "norm": 0, "verified": true, "status": "forwarded_no_ack"}
+{"ts": "2026-06-22T19:27:18.395084+00:00", "ev": "chunk_ack", "seq_num": 10, "rtt_ms": 1839.31, "verified": true, "status": "forwarded_no_ack", "mode": "isolation"}
+{"ts": "2026-06-22T19:27:18.585853+00:00", "event": "chunk_ack", "source": "eastus", "target": "germanywestcentral", "run_id": 44, "seq": 11, "rtt_ms": 2034.653, "bytes": 512, "norm": 0, "verified": true, "status": "forwarded_no_ack"}
+{"ts": "2026-06-22T19:27:18.585964+00:00", "ev": "chunk_ack", "seq_num": 11, "rtt_ms": 2034.65, "verified": true, "status": "forwarded_no_ack", "mode": "isolation"}
+{"ts": "2026-06-22T19:27:18.776432+00:00", "event": "chunk_ack", "source": "eastus", "target": "germanywestcentral", "run_id": 44, "seq": 12, "rtt_ms": 2224.413, "bytes": 512, "norm": 0, "verified": true, "status": "forwarded_no_ack"}
+{"ts": "2026-06-22T19:27:18.776545+00:00", "ev": "chunk_ack", "seq_num": 12, "rtt_ms": 2224.41, "verified": true, "status": "forwarded_no_ack", "mode": "isolation"}
+{"ts": "2026-06-22T19:27:18.967381+00:00", "event": "chunk_ack", "source": "eastus", "target": "germanywestcentral", "run_id": 44, "seq": 13, "rtt_ms": 2414.273, "bytes": 512, "norm": 0, "verified": true, "status": "forwarded_no_ack"}
+{"ts": "2026-06-22T19:27:18.967492+00:00", "ev": "chunk_ack", "seq_num": 13, "rtt_ms": 2414.27, "verified": true, "status": "forwarded_no_ack", "mode": "isolation"}
+{"ts": "2026-06-22T19:27:19.158889+00:00", "event": "chunk_ack", "source": "eastus", "target": "germanywestcentral", "run_id": 44, "seq": 14, "rtt_ms": 2604.743, "bytes": 512, "norm": 0, "verified": true, "status": "forwarded_no_ack"}
+{"ts": "2026-06-22T19:27:19.159000+00:00", "ev": "chunk_ack", "seq_num": 14, "rtt_ms": 2604.74, "verified": true, "status": "forwarded_no_ack", "mode": "isolation"}
+

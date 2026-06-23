@@ -1,0 +1,17 @@
+{
+  "cpu": 1.0,
+  "fqdn": "chorus-relay-us.eastus.azurecontainer.io",
+  "image": "chorusacrd7a6d0.azurecr.io/chorus-protocol:latest",
+  "ip": "20.237.21.245",
+  "location": "eastus",
+  "memory": 1.0,
+  "name": "chorus-relay",
+  "ports": [
+    {
+      "port": 50052,
+      "protocol": "TCP"
+    }
+  ],
+  "startTime": "2026-06-22T19:05:30.067000+00:00",
+  "state": "Running"
+}

@@ -1,0 +1,188 @@
+[CHORUS] Starting role=control_plane log_dir=/data
+2026-06-22 18:57:52,868  INFO      chorus.control_plane  Control Plane initialised  dim=128  ttl=7200s
+2026-06-22 18:57:52,879  INFO      chorus.control_plane  Control Plane listening on [::]:50051
+2026-06-22 18:57:53,582  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=60fae8c2-17cc-46a4-811c-75fbeef62a7c  expires=1782161873
+2026-06-22 18:57:54,256  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=49021fed-f4e6-4d85-96f0-2465061791c7  expires=1782161874
+2026-06-22 18:57:54,265  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=28af2977-f681-42ea-a1b3-7d751c9c4984  expires=1782161874
+2026-06-22 18:57:54,470  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=d2d04f94-9967-4165-a543-774eff2f2b44  expires=1782161874
+2026-06-22 18:58:49,789  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=7b7aa322-cae3-446c-8ecb-f6c0950c35ae  expires=1782161929
+2026-06-22 18:58:50,839  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=ff5f8fe5-3637-4b5e-bc1f-afc812eb39e2  expires=1782161930
+2026-06-22 18:58:50,961  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=7a163e36-a240-4c1f-a071-9a0da45eff31  expires=1782161930
+2026-06-22 18:58:51,137  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=dbfe66cc-9d25-4449-913e-cc736b82e48d  expires=1782161931
+2026-06-22 18:59:29,893  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=8d44c43c-9808-4f4b-9fcf-c7929ecdbda8  expires=1782161969
+2026-06-22 18:59:30,362  INFO      chorus.control_plane  Projections issued  pod=bench-eastus  sid=8d44c43c-9808-4f4b-9fcf-c7929ecdbda8
+2026-06-22 18:59:30,765  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=6f3ef7ac-23e0-4680-98f1-25ffe15439fc  expires=1782161970
+2026-06-22 18:59:30,869  INFO      chorus.control_plane  Projections issued  pod=bench2-eastus  sid=6f3ef7ac-23e0-4680-98f1-25ffe15439fc
+2026-06-22 18:59:30,878  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=80f621be-55a6-4cba-aca2-41bd911d3a32  expires=1782161970
+2026-06-22 18:59:30,886  INFO      chorus.control_plane  Projections issued  pod=target-bench-eastus  sid=80f621be-55a6-4cba-aca2-41bd911d3a32
+2026-06-22 18:59:31,103  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=033f1f49-301d-4849-b3bc-62db1a9fd767  expires=1782161971
+2026-06-22 18:59:31,111  INFO      chorus.control_plane  Projections issued  pod=target-bench2-eastus  sid=033f1f49-301d-4849-b3bc-62db1a9fd767
+2026-06-22 19:00:09,767  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=414af317-b3eb-452e-b4ce-9f9928060823  expires=1782162009
+2026-06-22 19:00:10,511  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=cec57a34-a17d-4596-9016-d0922561b5e9  expires=1782162010
+2026-06-22 19:00:10,731  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=c586753a-6f87-42ab-b231-a1b864f94d02  expires=1782162010
+2026-06-22 19:00:10,819  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=2285515f-c1de-4a78-9ad7-866fa970cdfd  expires=1782162010
+2026-06-22 19:01:34,402  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=0ca67a5c-20a6-4362-a7e6-0acc188ed186  expires=1782162094
+2026-06-22 19:01:35,568  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=1b07bc47-f09a-437f-8f39-18ab24a7894a  expires=1782162095
+2026-06-22 19:01:35,734  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=7362a5ad-165e-4ec7-a5af-9efc1f6cabb9  expires=1782162095
+2026-06-22 19:01:35,899  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=01ccbacb-fa59-4c00-a54e-fce6459d0d9f  expires=1782162095
+2026-06-22 19:02:14,833  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=0e9c6998-62c4-4a18-878f-5b7280170d8f  expires=1782162134
+2026-06-22 19:02:15,293  INFO      chorus.control_plane  Projections issued  pod=bench-eastus  sid=0e9c6998-62c4-4a18-878f-5b7280170d8f
+2026-06-22 19:02:15,717  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=25c72cd6-a2f3-4fd2-8c5e-7b1dad57787e  expires=1782162135
+2026-06-22 19:02:15,815  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=92d520ee-e6a1-476c-aba9-95558f6af2f3  expires=1782162135
+2026-06-22 19:02:15,824  INFO      chorus.control_plane  Projections issued  pod=target-bench-eastus  sid=92d520ee-e6a1-476c-aba9-95558f6af2f3
+2026-06-22 19:02:15,910  INFO      chorus.control_plane  Projections issued  pod=bench2-eastus  sid=25c72cd6-a2f3-4fd2-8c5e-7b1dad57787e
+2026-06-22 19:02:16,158  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=1e52c2b7-a1ca-4bef-8e74-3d97e9da6bf6  expires=1782162136
+2026-06-22 19:02:16,172  INFO      chorus.control_plane  Projections issued  pod=target-bench2-eastus  sid=1e52c2b7-a1ca-4bef-8e74-3d97e9da6bf6
+2026-06-22 19:02:54,827  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=fe168ea0-d139-495f-88f1-a0ff5cdb13c3  expires=1782162174
+2026-06-22 19:02:55,532  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=06241f6f-136d-440d-9006-ac2b628de746  expires=1782162175
+2026-06-22 19:02:55,642  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=82df9e2a-5a18-46e5-af50-0db4036ba139  expires=1782162175
+2026-06-22 19:02:55,893  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=09f5867d-073b-4b50-a211-07d0f39572ad  expires=1782162175
+2026-06-22 19:04:03,083  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=042e246f-7e2c-484e-a92b-255eec936530  expires=1782162243
+2026-06-22 19:04:04,250  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=7cae0613-a4ed-427f-a359-94b4fb62eb14  expires=1782162244
+2026-06-22 19:04:04,650  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=fbe79c54-00e2-47ab-90a0-dc3a5a3a806c  expires=1782162244
+2026-06-22 19:04:04,652  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=a9101aee-fcf6-4c36-9d59-72f000a2e781  expires=1782162244
+2026-06-22 19:04:59,316  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=6e2a4f88-2a65-4c02-822a-a2c7c74414c3  expires=1782162299
+2026-06-22 19:05:00,390  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=5e8f1d74-3963-4ef9-a1ad-9db3c47fff5c  expires=1782162300
+2026-06-22 19:05:44,076  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=d47e77c6-3732-45a0-805d-c54590b2b294  expires=1782162344
+2026-06-22 19:05:45,229  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=d4a24aed-e139-4333-8b2f-557b2c7706b7  expires=1782162345
+2026-06-22 19:06:35,770  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=a3f59817-0251-49d5-9609-efb841bb00b3  expires=1782162395
+2026-06-22 19:06:36,810  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=9c1ca4ae-e7a0-4e03-9695-728986ed1f1a  expires=1782162396
+2026-06-22 19:06:38,003  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=c61af256-9747-423b-8f0a-c32531d9e050  expires=1782162398
+2026-06-22 19:06:38,009  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=bd4bac64-3b88-4295-862a-a14fd28d6a1a  expires=1782162398
+2026-06-22 19:07:16,746  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=1dc2ff8d-76db-4ae2-82cb-1cce0b05b85c  expires=1782162436
+2026-06-22 19:07:17,205  INFO      chorus.control_plane  Projections issued  pod=bench-eastus  sid=1dc2ff8d-76db-4ae2-82cb-1cce0b05b85c
+2026-06-22 19:07:17,673  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=33429c7d-d81c-4c3c-bbc5-e7d70908c002  expires=1782162437
+2026-06-22 19:07:17,772  INFO      chorus.control_plane  Projections issued  pod=bench2-eastus  sid=33429c7d-d81c-4c3c-bbc5-e7d70908c002
+2026-06-22 19:07:17,841  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=a0ebdc78-4ef9-4ad2-bbb2-33b05af3b8a5  expires=1782162437
+2026-06-22 19:07:17,865  INFO      chorus.control_plane  Projections issued  pod=target-bench-eastus  sid=a0ebdc78-4ef9-4ad2-bbb2-33b05af3b8a5
+2026-06-22 19:07:17,985  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=4596c138-c95a-4f9c-bb30-01025a95e56f  expires=1782162437
+2026-06-22 19:07:17,992  INFO      chorus.control_plane  Projections issued  pod=target-bench2-eastus  sid=4596c138-c95a-4f9c-bb30-01025a95e56f
+2026-06-22 19:07:56,589  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=35d741f9-fc70-4341-a77d-c4cb11b62bbd  expires=1782162476
+2026-06-22 19:07:57,360  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=d69c801b-3c79-41ce-8976-cb3065f33d5c  expires=1782162477
+2026-06-22 19:07:57,436  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=a5652358-b53b-41c8-900b-75e9ec42d017  expires=1782162477
+2026-06-22 19:07:57,727  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=105137ee-1d3b-4474-8d1a-480b7913234e  expires=1782162477
+2026-06-22 19:09:04,939  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=46b81296-4451-452e-bb05-6e79002cb11f  expires=1782162544
+2026-06-22 19:09:05,811  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=be20cfc8-520b-44e8-ab19-8dd807323bb3  expires=1782162545
+2026-06-22 19:09:05,849  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=24c41eb3-3327-4c64-9bd5-cfa78bc80aea  expires=1782162545
+2026-06-22 19:09:06,110  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=066c3820-2636-4cd6-99f3-93ffdc124ba6  expires=1782162546
+2026-06-22 19:09:54,442  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=179a5423-c705-482c-8f44-35d9a176cd03  expires=1782162594
+2026-06-22 19:09:54,911  INFO      chorus.control_plane  Projections issued  pod=bench-eastus  sid=179a5423-c705-482c-8f44-35d9a176cd03
+2026-06-22 19:09:55,868  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=66ef154d-3773-47cf-a511-460b758f17cc  expires=1782162595
+2026-06-22 19:09:55,970  INFO      chorus.control_plane  Projections issued  pod=bench2-eastus  sid=66ef154d-3773-47cf-a511-460b758f17cc
+2026-06-22 19:09:55,993  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=1a042cab-93be-42bf-b71f-0b6c91de1e69  expires=1782162595
+2026-06-22 19:09:55,998  INFO      chorus.control_plane  Projections issued  pod=target-bench-eastus  sid=1a042cab-93be-42bf-b71f-0b6c91de1e69
+2026-06-22 19:09:56,177  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=6b5812ca-54d2-4384-8b11-c22514515122  expires=1782162596
+2026-06-22 19:09:56,187  INFO      chorus.control_plane  Projections issued  pod=target-bench2-eastus  sid=6b5812ca-54d2-4384-8b11-c22514515122
+2026-06-22 19:11:15,270  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=32aeb7e2-34de-4689-9896-d1b6d33b4516  expires=1782162675
+2026-06-22 19:11:15,940  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=35e4383b-4a91-4264-ba7d-fdcffcdb4bce  expires=1782162675
+2026-06-22 19:11:16,205  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=5fd7b438-2a48-494d-97a8-a2a285365824  expires=1782162676
+2026-06-22 19:11:16,272  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=386db6b5-818f-4cab-833b-d84ef5488930  expires=1782162676
+2026-06-22 19:12:13,472  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=7212f34c-ec4b-4808-b5c4-ec0c3477a59c  expires=1782162733
+2026-06-22 19:12:14,651  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=f9cd67d9-af09-42c3-bed4-dd906f85df07  expires=1782162734
+2026-06-22 19:12:14,750  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=17adac49-6469-4e71-bdcf-45e88436357d  expires=1782162734
+2026-06-22 19:12:14,941  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=9bf8ecce-b59c-4034-acda-7ca18c63601c  expires=1782162734
+2026-06-22 19:12:54,790  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=78df1b2b-6a28-41ff-9b5b-e04d194e3d3f  expires=1782162774
+2026-06-22 19:12:55,257  INFO      chorus.control_plane  Projections issued  pod=bench-eastus  sid=78df1b2b-6a28-41ff-9b5b-e04d194e3d3f
+2026-06-22 19:12:55,659  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=168c5b11-0780-4a84-a13f-a80a1f5d02c8  expires=1782162775
+2026-06-22 19:12:55,848  INFO      chorus.control_plane  Projections issued  pod=bench2-eastus  sid=168c5b11-0780-4a84-a13f-a80a1f5d02c8
+2026-06-22 19:12:56,066  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=788ae307-8b0e-4fd5-80c9-474818a7867e  expires=1782162776
+2026-06-22 19:12:56,073  INFO      chorus.control_plane  Projections issued  pod=target-bench2-eastus  sid=788ae307-8b0e-4fd5-80c9-474818a7867e
+2026-06-22 19:12:56,582  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=308910d3-054b-4f96-9871-b40a23bf185d  expires=1782162776
+2026-06-22 19:12:56,590  INFO      chorus.control_plane  Projections issued  pod=target-bench-eastus  sid=308910d3-054b-4f96-9871-b40a23bf185d
+2026-06-22 19:13:35,589  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=cedde1ce-7c50-4f17-8a18-95a30e711468  expires=1782162815
+2026-06-22 19:13:36,249  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=ec2716b9-6a11-40fa-b276-e9dba7d55651  expires=1782162816
+2026-06-22 19:13:36,414  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=844dee5d-92d7-415f-9d48-59115a4c4239  expires=1782162816
+2026-06-22 19:13:36,570  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=5b9a8ece-bba7-4a6b-a2d5-a35076f42775  expires=1782162816
+2026-06-22 19:14:34,616  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=7856c4b2-74f0-48e0-b10d-a48ae111f1cb  expires=1782162874
+2026-06-22 19:14:35,766  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=d4266986-5ba6-4b3c-90f7-07cf5765cf31  expires=1782162875
+2026-06-22 19:14:35,906  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=fc444eda-486e-4427-b1ed-be9567fafadd  expires=1782162875
+2026-06-22 19:14:36,064  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=b6aecb02-2f91-4212-ae6a-27d380449835  expires=1782162876
+2026-06-22 19:15:16,015  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=438893e1-4ae0-4038-86a2-2773a1afe388  expires=1782162916
+2026-06-22 19:15:16,485  INFO      chorus.control_plane  Projections issued  pod=bench-eastus  sid=438893e1-4ae0-4038-86a2-2773a1afe388
+2026-06-22 19:15:16,967  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=7210266e-4e4f-4198-9f42-30f88dfad07e  expires=1782162916
+2026-06-22 19:15:16,987  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=7d00dbc8-269d-4b1c-bb38-0ff5df7d8755  expires=1782162916
+2026-06-22 19:15:16,995  INFO      chorus.control_plane  Projections issued  pod=target-bench-eastus  sid=7d00dbc8-269d-4b1c-bb38-0ff5df7d8755
+2026-06-22 19:15:17,158  INFO      chorus.control_plane  Projections issued  pod=bench2-eastus  sid=7210266e-4e4f-4198-9f42-30f88dfad07e
+2026-06-22 19:15:17,366  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=6f0c961e-db1d-43a5-b27c-1017d0d33a51  expires=1782162917
+2026-06-22 19:15:17,372  INFO      chorus.control_plane  Projections issued  pod=target-bench2-eastus  sid=6f0c961e-db1d-43a5-b27c-1017d0d33a51
+2026-06-22 19:15:57,367  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=ee30540d-c5f2-4eda-abd4-558380e97e14  expires=1782162957
+2026-06-22 19:15:58,068  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=3e290241-37a2-42ce-92af-3acb4beff22d  expires=1782162958
+2026-06-22 19:15:58,190  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=24e36822-3cef-4006-93cd-ed3c2032a549  expires=1782162958
+2026-06-22 19:15:58,392  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=75087f34-c360-4658-832c-22aa7acdaa2f  expires=1782162958
+2026-06-22 19:16:55,996  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=753d64c0-e9d7-46e2-a921-df431be67fff  expires=1782163015
+2026-06-22 19:16:57,168  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=9e15e81a-fcb4-44c8-945e-82a4a5a68273  expires=1782163017
+2026-06-22 19:16:57,277  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=da3833e1-0e2e-4d36-8510-2b3e58447273  expires=1782163017
+2026-06-22 19:16:57,503  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=c66d149f-a4d9-45b6-ae5b-3530b4cfb4d7  expires=1782163017
+2026-06-22 19:17:37,501  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=c00a22ce-57a2-423d-a5b7-18ef8a796f38  expires=1782163057
+2026-06-22 19:17:37,959  INFO      chorus.control_plane  Projections issued  pod=bench-eastus  sid=c00a22ce-57a2-423d-a5b7-18ef8a796f38
+2026-06-22 19:17:38,446  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=67ffe427-fed3-4469-a859-9afbfe3d970f  expires=1782163058
+2026-06-22 19:17:38,559  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=13399580-feab-418e-8cf5-55f67ec352fb  expires=1782163058
+2026-06-22 19:17:38,569  INFO      chorus.control_plane  Projections issued  pod=target-bench-eastus  sid=13399580-feab-418e-8cf5-55f67ec352fb
+2026-06-22 19:17:38,642  INFO      chorus.control_plane  Projections issued  pod=bench2-eastus  sid=67ffe427-fed3-4469-a859-9afbfe3d970f
+2026-06-22 19:17:38,930  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=0bc2e862-1275-4fd5-828a-e0ba8aa81d57  expires=1782163058
+2026-06-22 19:17:38,936  INFO      chorus.control_plane  Projections issued  pod=target-bench2-eastus  sid=0bc2e862-1275-4fd5-828a-e0ba8aa81d57
+2026-06-22 19:18:18,554  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=eb26731e-c528-4362-afe1-6bc561da1cac  expires=1782163098
+2026-06-22 19:18:19,220  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=006edcd4-812a-4d24-9740-2081213b0d4d  expires=1782163099
+2026-06-22 19:18:19,327  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=b6d53333-edf7-4b0f-bdc5-8a23346bff07  expires=1782163099
+2026-06-22 19:18:19,581  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=e3136d81-b4fe-413f-a740-c49196ecd3c9  expires=1782163099
+2026-06-22 19:19:18,097  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=aab56c41-fe17-44ef-a739-4b1d1bbcf930  expires=1782163158
+2026-06-22 19:19:19,334  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=7aaf1c3c-11c0-47b5-88ef-d4fe0a7fbb60  expires=1782163159
+2026-06-22 19:19:19,378  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=200e0fc4-fd95-4d0f-801f-b19f3b0d9d12  expires=1782163159
+2026-06-22 19:19:19,628  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=751a7bbc-163f-4813-bcd8-984a41db6ec0  expires=1782163159
+2026-06-22 19:19:59,571  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=0e1ddd46-ba1a-43c1-891a-1594b2e56c2c  expires=1782163199
+2026-06-22 19:20:00,046  INFO      chorus.control_plane  Projections issued  pod=bench-eastus  sid=0e1ddd46-ba1a-43c1-891a-1594b2e56c2c
+2026-06-22 19:20:00,448  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=14c80f9a-8a8e-4992-9a1f-154ede046266  expires=1782163200
+2026-06-22 19:20:00,556  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=4cf06234-8f90-4521-be85-81ea0d2f7136  expires=1782163200
+2026-06-22 19:20:00,568  INFO      chorus.control_plane  Projections issued  pod=target-bench-eastus  sid=4cf06234-8f90-4521-be85-81ea0d2f7136
+2026-06-22 19:20:00,637  INFO      chorus.control_plane  Projections issued  pod=bench2-eastus  sid=14c80f9a-8a8e-4992-9a1f-154ede046266
+2026-06-22 19:20:00,852  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=77fbe232-24d9-4199-9f47-02335eae7206  expires=1782163200
+2026-06-22 19:20:00,859  INFO      chorus.control_plane  Projections issued  pod=target-bench2-eastus  sid=77fbe232-24d9-4199-9f47-02335eae7206
+2026-06-22 19:20:40,691  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=b605ffba-f21d-4bd1-bc2d-e60906e6f6c0  expires=1782163240
+2026-06-22 19:20:41,468  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=ddf53d99-f3bb-41cc-986c-1f7cd9488b4c  expires=1782163241
+2026-06-22 19:20:41,470  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=844cd43c-1356-4181-a5bb-daf28b911b3a  expires=1782163241
+2026-06-22 19:20:41,791  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=e8e62910-372b-478c-b3b1-db4d2789fc2e  expires=1782163241
+2026-06-22 19:21:48,322  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=b32ca8fd-8729-4c03-8dd7-aee7ff4b190a  expires=1782163308
+2026-06-22 19:21:49,481  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=e1e775aa-d0a1-4c8e-b82c-e9ae23e18468  expires=1782163309
+2026-06-22 19:21:49,602  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=36a49d54-2f50-4fdf-99fc-ee224edab1b1  expires=1782163309
+2026-06-22 19:21:49,782  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=12d6daf1-b735-4365-b38b-4d265b49e823  expires=1782163309
+2026-06-22 19:22:29,600  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=b3f1bf95-906d-4685-bf56-cd2da5532692  expires=1782163349
+2026-06-22 19:22:30,068  INFO      chorus.control_plane  Projections issued  pod=bench-eastus  sid=b3f1bf95-906d-4685-bf56-cd2da5532692
+2026-06-22 19:22:30,467  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=8c6a2b70-0ba0-4b2f-87d4-36c3d2d296d1  expires=1782163350
+2026-06-22 19:22:30,567  INFO      chorus.control_plane  Projections issued  pod=bench2-eastus  sid=8c6a2b70-0ba0-4b2f-87d4-36c3d2d296d1
+2026-06-22 19:22:30,568  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=bad9b57c-dcb1-4017-ae24-28a418a6d3f2  expires=1782163350
+2026-06-22 19:22:30,580  INFO      chorus.control_plane  Projections issued  pod=target-bench-eastus  sid=bad9b57c-dcb1-4017-ae24-28a418a6d3f2
+2026-06-22 19:22:30,776  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=e5f7efa3-3138-4e8d-be9f-18b494ceaa98  expires=1782163350
+2026-06-22 19:22:30,785  INFO      chorus.control_plane  Projections issued  pod=target-bench2-eastus  sid=e5f7efa3-3138-4e8d-be9f-18b494ceaa98
+2026-06-22 19:23:10,428  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=3ae21e13-8937-4e78-ba5d-2b1b883cfbe9  expires=1782163390
+2026-06-22 19:23:11,090  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=d8ff8c72-619d-4806-a801-60797dc9edac  expires=1782163391
+2026-06-22 19:23:11,280  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=f9522f7d-7f43-4493-9229-42b847b606ff  expires=1782163391
+2026-06-22 19:23:11,390  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=cfb10e57-d83e-4efc-b9f8-cb12163e70a4  expires=1782163391
+2026-06-22 19:24:09,565  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=9e47816a-0e42-458f-9ab1-8c2b42e8278e  expires=1782163449
+2026-06-22 19:24:10,749  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=5e6105f4-c8fe-46a2-8a27-70af26e718d6  expires=1782163450
+2026-06-22 19:24:10,845  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=a38c2fdf-41c9-4a55-800f-e74c9dcf7e95  expires=1782163450
+2026-06-22 19:24:11,135  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=5725a27a-811b-4292-8d8c-e8d779c00fcb  expires=1782163451
+2026-06-22 19:24:50,997  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=3be9a450-1152-41ea-9ab0-1332681dcdeb  expires=1782163490
+2026-06-22 19:24:51,460  INFO      chorus.control_plane  Projections issued  pod=bench-eastus  sid=3be9a450-1152-41ea-9ab0-1332681dcdeb
+2026-06-22 19:24:51,847  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=c9a6e72c-75f5-4ff1-a284-fafdb9927e3c  expires=1782163491
+2026-06-22 19:24:51,952  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=9b841313-ea86-4618-86fd-b757912e416e  expires=1782163491
+2026-06-22 19:24:51,959  INFO      chorus.control_plane  Projections issued  pod=target-bench-eastus  sid=9b841313-ea86-4618-86fd-b757912e416e
+2026-06-22 19:24:52,036  INFO      chorus.control_plane  Projections issued  pod=bench2-eastus  sid=c9a6e72c-75f5-4ff1-a284-fafdb9927e3c
+2026-06-22 19:24:52,258  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=875207fb-7baa-414f-a0b4-6518acd6a8f9  expires=1782163492
+2026-06-22 19:24:52,265  INFO      chorus.control_plane  Projections issued  pod=target-bench2-eastus  sid=875207fb-7baa-414f-a0b4-6518acd6a8f9
+2026-06-22 19:25:31,938  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=4a0bd925-6702-421a-8a20-401b5d3f85f2  expires=1782163531
+2026-06-22 19:25:32,626  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=65d8b53d-2840-42f1-be77-50d3bbd6c2d6  expires=1782163532
+2026-06-22 19:25:32,722  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=83fce851-d404-4f30-a721-82efe88a0940  expires=1782163532
+2026-06-22 19:25:33,012  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=7bb17203-88e4-4fb1-85da-25aaf2c626ff  expires=1782163533
+2026-06-22 19:26:33,757  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=142acc16-9a44-46aa-9866-f02d9f55661e  expires=1782163593
+2026-06-22 19:26:34,915  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=ccad04b2-e1e5-4eef-9c53-2025bb6560c8  expires=1782163594
+2026-06-22 19:26:35,029  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=01f1b765-48b0-4bb7-b013-70f478fe5b2b  expires=1782163595
+2026-06-22 19:26:35,213  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=55296474-4e3e-434a-8718-6191dca7563b  expires=1782163595
+2026-06-22 19:27:15,242  INFO      chorus.control_plane  Session created  pod=bench-eastus  role=source  sid=3830146d-272e-4ade-aa41-15d426266950  expires=1782163635
+2026-06-22 19:27:15,704  INFO      chorus.control_plane  Projections issued  pod=bench-eastus  sid=3830146d-272e-4ade-aa41-15d426266950
+2026-06-22 19:27:16,097  INFO      chorus.control_plane  Session created  pod=bench2-eastus  role=source  sid=14a74c89-622b-457b-ab2e-daf541a8568d  expires=1782163636
+2026-06-22 19:27:16,228  INFO      chorus.control_plane  Session created  pod=target-bench-eastus  role=target  sid=1cf1a805-2082-48f2-82df-fcdc3800921f  expires=1782163636
+2026-06-22 19:27:16,254  INFO      chorus.control_plane  Projections issued  pod=target-bench-eastus  sid=1cf1a805-2082-48f2-82df-fcdc3800921f
+2026-06-22 19:27:16,288  INFO      chorus.control_plane  Projections issued  pod=bench2-eastus  sid=14a74c89-622b-457b-ab2e-daf541a8568d
+2026-06-22 19:27:16,498  INFO      chorus.control_plane  Session created  pod=target-bench2-eastus  role=target  sid=9dcce09c-5bca-47f2-8229-7414736f8420  expires=1782163636
+2026-06-22 19:27:16,509  INFO      chorus.control_plane  Projections issued  pod=target-bench2-eastus  sid=9dcce09c-5bca-47f2-8229-7414736f8420
+

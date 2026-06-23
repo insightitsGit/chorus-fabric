@@ -1,0 +1,17 @@
+{
+  "cpu": 1.0,
+  "fqdn": "chorus-cp-de.germanywestcentral.azurecontainer.io",
+  "image": "chorusacrd7a6d0.azurecr.io/chorus-protocol:latest",
+  "ip": "4.182.111.109",
+  "location": "germanywestcentral",
+  "memory": 1.0,
+  "name": "chorus-control-plane",
+  "ports": [
+    {
+      "port": 50051,
+      "protocol": "TCP"
+    }
+  ],
+  "startTime": "2026-06-22T18:57:48.305000+00:00",
+  "state": "Running"
+}
