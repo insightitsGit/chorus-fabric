@@ -11,6 +11,14 @@ Today every AI agent system converts embeddings (float32 vectors) to text, sends
 
 **One-line pitch:** CHORUS Fabric is the first tensor-native communication protocol for AI agents — 4.45× less bandwidth, cipher overhead of zero, and a cryptographic watermark on every single message.
 
+**New in v0.2.0 — zero-overhead encryption + forward secrecy.** The session key
+is no longer static: it rotates per-session or every N messages (a fresh QR key
+broadcast over the existing gRPC channel and swapped atomically), and retired
+keys can no longer decrypt past or future traffic. The matrix-multiply cipher
+also gained a CUDA fast-path, so throughput can be benchmarked on GPU vs CPU at
+high embedding dimensions. Rotation adds forward secrecy at zero steady-state
+overhead.
+
 ---
 
 ## Why It Matters (The Problem)

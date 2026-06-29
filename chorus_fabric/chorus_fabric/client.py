@@ -12,6 +12,10 @@ Usage:
 
     tensor = torch.randn(128)
     acks = client.send_direct(tensor)
+
+Dynamic key rotation (v0.2.0):
+    client.rotate_key()                 # rotate on demand (forward secrecy)
+    client = ChorusClient(..., rekey_every=64)   # or auto-rotate every 64 sends
 """
 
 import logging
@@ -25,6 +29,9 @@ from chorus_fabric import crypto_engine as ce
 from chorus_fabric import fabric_pb2, fabric_pb2_grpc
 
 logger = logging.getLogger("chorus_fabric.client")
+
+# Default auto-rotation cadence (0 = manual rotation only).
+REKEY_EVERY = int(os.getenv("CHORUS_REKEY_EVERY", "0"))
 
 
 class ChorusClient:
@@ -52,9 +59,11 @@ class ChorusClient:
         relay: str | None = "localhost:50052",
         target: str | None = None,
         dim: int = ce.DEFAULT_DIM,
+        rekey_every: int = REKEY_EVERY,
     ):
         self.pod_id = pod_id
         self.dim = dim
+        self.rekey_every = max(0, int(rekey_every))
 
         self._cp = fabric_pb2_grpc.ControlPlaneStub(
             grpc.insecure_channel(control_plane)
@@ -82,6 +91,8 @@ class ChorusClient:
         self.watermark_seed: bytes | None = None
         self.W_A: torch.Tensor | None = None
         self.W_B: torch.Tensor | None = None
+        self.key_epoch: int = 0
+        self._sent_since_rotate: int = 0
 
     # ── Setup ──────────────────────────────────────────────────────────────────
 
@@ -107,6 +118,8 @@ class ChorusClient:
         self.K = ce.bytes_to_matrix(bundle.key_matrix_K, bundle.dim).double()
         self.K_inv = ce.bytes_to_matrix(bundle.key_matrix_K_inv, bundle.dim).double()
         self.watermark_seed = bundle.watermark_seed
+        self.key_epoch = bundle.key_epoch
+        self._sent_since_rotate = 0
 
         if isolation_mode:
             proj = self._cp.RequestOrthogonalProjections(
@@ -122,6 +135,36 @@ class ChorusClient:
             self.pod_id, self.session_id, bundle.dim, bundle.expires_at,
         )
         return self.session_id
+
+    # ── Key rotation (forward secrecy) ──────────────────────────────────────────
+
+    def rotate_key(self) -> int:
+        """
+        Ask the Control Plane to mint a fresh key generation for this session
+        and swap it in atomically. Subsequent payloads are tagged with the new
+        key_epoch; the retired key can no longer decrypt past or future traffic.
+
+        Returns the new key_epoch.
+        """
+        self._require_handshake()
+        bundle = self._cp.RotateKey(
+            fabric_pb2.KeyRequest(pod_id=self.pod_id, session_id=self.session_id)
+        )
+        # Atomic swap: rebind all three at once so no payload is ever encrypted
+        # with a half-updated key/epoch pair.
+        self.K, self.K_inv, self.key_epoch = (
+            ce.bytes_to_matrix(bundle.key_matrix_K, bundle.dim).double(),
+            ce.bytes_to_matrix(bundle.key_matrix_K_inv, bundle.dim).double(),
+            bundle.key_epoch,
+        )
+        self._sent_since_rotate = 0
+        logger.info("[%s] Key rotated → epoch=%d", self.pod_id, self.key_epoch)
+        return self.key_epoch
+
+    def _maybe_rotate(self) -> None:
+        """Auto-rotate when rekey_every sends have elapsed (no-op if disabled)."""
+        if self.rekey_every and self._sent_since_rotate >= self.rekey_every:
+            self.rotate_key()
 
     # ── Send helpers ───────────────────────────────────────────────────────────
 
@@ -150,13 +193,16 @@ class ChorusClient:
 
         def _payloads():
             for i, t in enumerate(tensors):
+                self._maybe_rotate()
                 wm = ce.inject_watermark(t, self.watermark_seed, seq_start + i)
                 enc = ce.encrypt(wm, self.K)
+                self._sent_since_rotate += 1
                 yield fabric_pb2.TensorPayload(
                     data=ce.tensor_to_bytes(enc),
                     dim=self.dim, seq_len=1,
                     pod_id=self.pod_id, session_id=self.session_id,
                     mode="direct", watermark=b"", seq_num=seq_start + i,
+                    key_epoch=self.key_epoch,
                 )
 
         return self._dispatch(_payloads())
@@ -186,6 +232,7 @@ class ChorusClient:
             raise RuntimeError("Call handshake(isolation_mode=True) before send_isolation().")
 
         def _payloads():
+            self._maybe_rotate()
             vA = ce.inject_watermark(tensor_a, self.watermark_seed, seq_start)
             vB = ce.inject_watermark(tensor_b, self.watermark_seed, seq_start + 10000)
             vA_enc = ce.encrypt(vA, self.K)
@@ -193,11 +240,13 @@ class ChorusClient:
             vA_proj = ce.project_signal(vA_enc, self.W_A)
             vB_proj = ce.project_signal(vB_enc, self.W_B)
             tunnel = ce.mix_signals(vA_proj, vB_proj)
+            self._sent_since_rotate += 1
             yield fabric_pb2.TensorPayload(
                 data=ce.tensor_to_bytes(tunnel),
                 dim=self.dim, seq_len=1,
                 pod_id=self.pod_id, session_id=self.session_id,
                 mode="isolation", watermark=b"", seq_num=seq_start,
+                key_epoch=self.key_epoch,
             )
 
         return self._dispatch(_payloads())

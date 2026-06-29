@@ -179,7 +179,7 @@ class RelayNodeServicer(fabric_pb2_grpc.RelayNodeServicer):
         return fabric_pb2.TensorPayload(
             data=ce.tensor_to_bytes(v), dim=p.dim, seq_len=p.seq_len,
             pod_id=p.pod_id, session_id=p.session_id, mode=p.mode,
-            watermark=p.watermark, seq_num=p.seq_num,
+            watermark=p.watermark, seq_num=p.seq_num, key_epoch=p.key_epoch,
         )
 
     @staticmethod

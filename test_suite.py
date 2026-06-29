@@ -286,6 +286,139 @@ class TestRelayAmplification(unittest.TestCase):
 
 
 # -----------------------------------------------------------------------------
+# 6. Dynamic Key Rotation  (Forward Secrecy)  [v0.2.0]
+# -----------------------------------------------------------------------------
+
+class TestKeyRotation(unittest.TestCase):
+
+    def setUp(self):
+        self.dim  = 64
+        self.seed = ce.generate_watermark_seed(self.dim)
+
+    def test_rotation_mints_new_key(self):
+        """rotate() must bump the epoch and produce a genuinely different key."""
+        mgr = ce.SessionKeyManager(self.dim, grace=2)
+        e0, K0, _ = mgr.current()
+        mgr.rotate()
+        e1, K1, _ = mgr.current()
+        self.assertEqual(e1, e0 + 1, "epoch did not advance")
+        diff = (K0 - K1).abs().max().item()
+        self.assertGreater(diff, 0.01, f"rotated key barely changed: {diff:.2e}")
+        print(f"\n[6a] Rotation epoch {e0}->{e1}  key max-diff={diff:.4f}  PASS")
+
+    def test_current_epoch_roundtrip(self):
+        """Encrypt/decrypt under the current epoch round-trips (atomic swap)."""
+        mgr = ce.SessionKeyManager(self.dim, grace=2)
+        torch.manual_seed(101)
+        v = torch.randn(self.dim)
+        for _ in range(3):
+            mgr.rotate()
+            enc = mgr.encrypt(v)
+            dec = mgr.decrypt(enc, mgr.current_epoch)
+            err = (v - dec).abs().max().item()
+            self.assertLess(err, 1e-3, f"epoch {mgr.current_epoch} round-trip {err:.2e}")
+        print(f"[6b] Per-epoch round-trip across rotations: PASS")
+
+    def test_in_flight_grace_window(self):
+        """A message encrypted under the previous epoch still decrypts within grace."""
+        mgr = ce.SessionKeyManager(self.dim, grace=2)
+        torch.manual_seed(102)
+        v   = ce.inject_watermark(torch.randn(self.dim), self.seed, 0)
+        enc = mgr.encrypt(v, epoch=0)
+        mgr.rotate()  # now at epoch 1, epoch 0 within grace
+        dec = mgr.decrypt(enc, 0)
+        self.assertTrue(ce.verify_watermark(dec, self.seed, 0),
+                        "in-flight message under previous key failed to verify")
+        print(f"[6c] In-flight message survives one rotation (grace window): PASS")
+
+    def test_forward_secrecy_retired_key_is_dead(self):
+        """
+        Once an epoch is retired (beyond the grace window) its key material is
+        gone — the manager refuses to decrypt, and the still-live newer key
+        produces garbage that fails the watermark. This is forward secrecy.
+        """
+        mgr = ce.SessionKeyManager(self.dim, grace=2)
+        torch.manual_seed(103)
+        v   = ce.inject_watermark(torch.randn(self.dim), self.seed, 0)
+        enc = mgr.encrypt(v, epoch=0)
+
+        # Rotate past the grace window: epoch 0 must be retired (grace=2 keeps
+        # current, current-1, current-2 → retire at epoch 3).
+        for _ in range(3):
+            mgr.rotate()
+        self.assertEqual(mgr.current_epoch, 3)
+        self.assertNotIn(0, mgr.live_epochs(), "epoch 0 should be retired")
+
+        with self.assertRaises(KeyError):
+            mgr.decrypt(enc, 0)
+
+        # A captured-later (live) key cannot recover the old ciphertext.
+        _, K_inv_live = mgr.get(mgr.current_epoch)
+        garbage = ce.decrypt(enc, K_inv_live)
+        self.assertFalse(ce.verify_watermark(garbage, self.seed, 0),
+                         "newer key must NOT decrypt old traffic")
+        print(f"[6d] Retired key dead + newer key cannot decrypt old traffic: PASS")
+
+    def test_grace_window_size(self):
+        """live_epochs() retains exactly (grace + 1) generations."""
+        mgr = ce.SessionKeyManager(self.dim, grace=2)
+        for _ in range(5):
+            mgr.rotate()
+        self.assertEqual(mgr.live_epochs(), [3, 4, 5])
+        print(f"[6e] Grace window keeps {mgr.live_epochs()} (current+2): PASS")
+
+
+# -----------------------------------------------------------------------------
+# 7. CUDA / Device Path  [v0.2.0]
+# -----------------------------------------------------------------------------
+
+class TestDevicePath(unittest.TestCase):
+
+    def test_resolve_device_fallback(self):
+        """'cpu' resolves to CPU; 'cuda' falls back to CPU when no GPU present."""
+        self.assertEqual(ce.resolve_device("cpu").type, "cpu")
+        dev = ce.resolve_device("cuda")
+        if ce.cuda_available():
+            self.assertEqual(dev.type, "cuda")
+        else:
+            self.assertEqual(dev.type, "cpu")  # graceful fallback, no raise
+        self.assertIn(ce.resolve_device("auto").type, ("cpu", "cuda"))
+        print(f"\n[7a] resolve_device cuda_available={ce.cuda_available()} "
+              f"-> auto={ce.resolve_device('auto').type}  PASS")
+
+    def test_device_arg_matches_default(self):
+        """encrypt(device='cpu') must equal the default CPU path bit-for-bit."""
+        torch.manual_seed(201)
+        K, _ = ce.generate_key_pair(64)
+        v = torch.randn(64)
+        a = ce.encrypt(v, K)
+        b = ce.encrypt(v, K, device="cpu")
+        self.assertTrue(torch.allclose(a, b, atol=1e-6))
+        print(f"[7b] Device-routed encrypt matches default: PASS")
+
+    def test_cipher_throughput_smoke(self):
+        """cipher_throughput returns a sane benchmark dict on CPU."""
+        r = ce.cipher_throughput(dim=128, batch=64, iters=5, warmup=2, device="cpu")
+        self.assertEqual(r["device"], "cpu")
+        self.assertGreater(r["vectors_per_sec"], 0.0)
+        self.assertGreater(r["gib_per_sec"], 0.0)
+        print(f"[7c] cipher_throughput cpu={r['vectors_per_sec']:.0f} vec/s  PASS")
+
+    def test_gpu_cpu_parity_if_available(self):
+        """If a GPU is present, GPU and CPU encryption agree numerically."""
+        if not ce.cuda_available():
+            print(f"[7d] GPU parity SKIPPED (no CUDA device)")
+            self.skipTest("no CUDA device")
+        torch.manual_seed(202)
+        K, _ = ce.generate_key_pair(128, device="cuda")
+        v = torch.randn(128)
+        gpu = ce.encrypt(v, K, device="cuda").cpu()
+        cpu = ce.encrypt(v, K.cpu(), device="cpu")
+        self.assertTrue(torch.allclose(gpu, cpu, atol=1e-3))
+        print(f"[7d] GPU/CPU numerical parity: PASS")
+
+
+# -----------------------------------------------------------------------------
 # Runner
 # -----------------------------------------------------------------------------
 
@@ -302,6 +435,8 @@ if __name__ == "__main__":
         TestWatermarkIntegrity,
         TestKeyManagement,
         TestRelayAmplification,
+        TestKeyRotation,
+        TestDevicePath,
     ]:
         suite.addTests(loader.loadTestsFromTestCase(cls))
 

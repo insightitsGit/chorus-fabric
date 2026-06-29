@@ -105,6 +105,48 @@ The receiver recomputes the expected watermark independently and checks cosine s
 | **Isolation (Mode A)** | `send_isolation(tensor_a, tensor_b)` | Two agents share one channel, zero crosstalk |
 | **Superposition (Mode B)** | `send_superposition(tensor_a, tensor_b)` | Consensus / ensemble blend |
 
+### Dynamic Key Rotation — Forward Secrecy  *(new in v0.2.0)*
+
+`K` is no longer a static per-session matrix. Each key generation is an
+**epoch**; rotating mints a fresh QR key, broadcasts it over the existing gRPC
+channel (`ControlPlane.RotateKey`), and swaps it in atomically. Every payload is
+tagged with the `key_epoch` it was encrypted under, so the receiver decrypts
+with the exact generation that sealed it. Rotated-away keys are retired after a
+short grace window and can no longer decrypt past **or** future traffic — a key
+captured after rotation is worthless. That is forward secrecy.
+
+```python
+# Rotate on demand
+client.rotate_key()
+
+# …or auto-rotate every N messages
+client = ChorusClient(pod_id="agent", control_plane="cp:50051",
+                      relay="relay:50052", rekey_every=64)
+client.handshake()
+client.send_direct(torch.randn(128))   # epoch advances automatically
+```
+
+The rotation itself is one more QR decomposition — microseconds — so forward
+secrecy is added at **zero steady-state overhead**.
+
+### CUDA Cipher Path  *(new in v0.2.0)*
+
+The cipher *is* a matrix multiply, so it runs unchanged on a GPU. Set the device
+explicitly or let it auto-detect:
+
+```python
+import os
+os.environ["CHORUS_DEVICE"] = "cuda"   # "auto" (default) | "cpu" | "cuda"
+
+from chorus_fabric import cipher_throughput
+print(cipher_throughput(dim=1536, batch=1024))   # vectors/sec, GiB/s, µs/vector
+```
+
+`resolve_device("cuda")` falls back to CPU with a warning when no GPU is present,
+so the same code runs everywhere. The repository's `bench_cipher.py` benchmarks
+the cipher across embedding dimensions on CPU vs GPU to quantify the
+zero-overhead claim at high dimensions.
+
 ---
 
 ## Use Cases

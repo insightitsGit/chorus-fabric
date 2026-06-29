@@ -4,14 +4,15 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "chorus-fabric"
-version = "0.1.0"
-description = "High-dimensional tensor communication fabric for AI-to-AI signaling — Patent Pending US 64/096,156"
+version = "0.2.0"
+description = "Tensor-native AI-to-AI communication fabric with forward-secret key rotation and a CUDA cipher path — Patent Pending US 64/096,156"
 readme = "README.md"
 license = { text = "MIT" }
 authors = [{ name = "Amin Parva", email = "parvaamin@gmail.com" }]
 keywords = [
     "AI", "machine-to-machine", "M2M", "tensor", "gRPC",
-    "embedding", "LLM", "protocol", "cryptography", "multiagent"
+    "embedding", "LLM", "protocol", "cryptography", "multiagent",
+    "forward-secrecy", "key-rotation", "CUDA", "GPU"
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -26,10 +27,12 @@ classifiers = [
     "Topic :: System :: Networking",
 ]
 requires-python = ">=3.10"
+# protobuf/grpcio floors match the checked-in generated stubs (gencode 6.33.x,
+# grpc plugin 1.81.x). An older protobuf runtime cannot load the shipped pb2.
 dependencies = [
-    "grpcio>=1.64.0",
-    "grpcio-tools>=1.64.0",
-    "protobuf>=5.26.0",
+    "grpcio>=1.81.0",
+    "grpcio-tools>=1.81.0",
+    "protobuf>=6.33.5,<7",
     "numpy>=1.24.0,<2.0.0",
     "torch>=2.0.0",
 ]

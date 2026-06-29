@@ -37,6 +37,7 @@ TARGET_HOST         = os.getenv("CHORUS_TARGET_HOST", "target-pod")
 TARGET_PORT_ENV     = os.getenv("CHORUS_TARGET_PORT", "50053")
 DIM                 = int(os.getenv("CHORUS_DIM", str(ce.DEFAULT_DIM)))
 USE_RELAY           = os.getenv("CHORUS_USE_RELAY", "true").lower() == "true"
+REKEY_EVERY         = int(os.getenv("CHORUS_REKEY_EVERY", "0"))  # 0 = manual rotation
 
 
 class ChorusClient:
@@ -45,9 +46,10 @@ class ChorusClient:
     Must call handshake() before streaming.
     """
 
-    def __init__(self, pod_id: str = "pod-A"):
-        self.pod_id  = pod_id
-        self.dim     = DIM
+    def __init__(self, pod_id: str = "pod-A", rekey_every: int = REKEY_EVERY):
+        self.pod_id      = pod_id
+        self.dim         = DIM
+        self.rekey_every = max(0, int(rekey_every))
 
         # Control Plane connection
         cp_addr = f"{CONTROL_PLANE_HOST}:{CONTROL_PLANE_PORT}"
@@ -73,6 +75,8 @@ class ChorusClient:
         self.watermark_seed: bytes | None        = None
         self.W_A:            torch.Tensor | None = None
         self.W_B:            torch.Tensor | None = None
+        self.key_epoch:      int                 = 0
+        self._sent_since_rotate: int             = 0
 
     # ── Handshake ──────────────────────────────────────────────────────────────
 
@@ -89,8 +93,11 @@ class ChorusClient:
         self.K              = ce.bytes_to_matrix(bundle.key_matrix_K,     bundle.dim).double()
         self.K_inv          = ce.bytes_to_matrix(bundle.key_matrix_K_inv, bundle.dim).double()
         self.watermark_seed = bundle.watermark_seed
-        logger.info("[%s] Handshake OK  sid=%s  dim=%d  expires=%d",
-                    self.pod_id, self.session_id, bundle.dim, bundle.expires_at)
+        self.key_epoch      = bundle.key_epoch
+        self._sent_since_rotate = 0
+        logger.info("[%s] Handshake OK  sid=%s  dim=%d  epoch=%d  expires=%d",
+                    self.pod_id, self.session_id, bundle.dim, bundle.key_epoch,
+                    bundle.expires_at)
 
         if request_projections:
             proj = self._cp.RequestOrthogonalProjections(
@@ -101,6 +108,32 @@ class ChorusClient:
             logger.info("[%s] Orthogonal projections received.", self.pod_id)
 
         return self.session_id
+
+    # ── Key rotation (forward secrecy) ──────────────────────────────────────────
+
+    def rotate_key(self) -> int:
+        """
+        Ask the Control Plane to mint a fresh key generation for this session and
+        swap it in atomically. Subsequent payloads carry the new key_epoch; the
+        retired key can no longer decrypt past or future traffic.
+        Returns the new key_epoch.
+        """
+        bundle = self._cp.RotateKey(
+            fabric_pb2.KeyRequest(pod_id=self.pod_id, session_id=self.session_id)
+        )
+        self.K, self.K_inv, self.key_epoch = (
+            ce.bytes_to_matrix(bundle.key_matrix_K,     bundle.dim).double(),
+            ce.bytes_to_matrix(bundle.key_matrix_K_inv, bundle.dim).double(),
+            bundle.key_epoch,
+        )
+        self._sent_since_rotate = 0
+        logger.info("[%s] Key rotated → epoch=%d", self.pod_id, self.key_epoch)
+        return self.key_epoch
+
+    def _maybe_rotate(self) -> None:
+        """Auto-rotate when rekey_every payloads have been built (no-op if 0)."""
+        if self.rekey_every and self._sent_since_rotate >= self.rekey_every:
+            self.rotate_key()
 
     # ── Signal generation ──────────────────────────────────────────────────────
 
@@ -118,11 +151,13 @@ class ChorusClient:
     # ── Payload builders ───────────────────────────────────────────────────────
 
     def _wrap(self, wire_tensor: torch.Tensor, mode: str, seq: int) -> fabric_pb2.TensorPayload:
+        self._sent_since_rotate += 1
         return fabric_pb2.TensorPayload(
             data=ce.tensor_to_bytes(wire_tensor),
             dim=self.dim, seq_len=1,
             pod_id=self.pod_id, session_id=self.session_id,
             mode=mode, watermark=b"", seq_num=seq,
+            key_epoch=self.key_epoch,
         )
 
     def build_isolation_payload(self, v_A: torch.Tensor, v_B: torch.Tensor,
@@ -134,6 +169,7 @@ class ChorusClient:
           V_tunnel = W_A·V_A_enc + W_B·V_B_enc  (single wire tensor)
         """
         assert self.W_A is not None, "Call handshake(request_projections=True) first"
+        self._maybe_rotate()
         vA = ce.inject_watermark(v_A, self.watermark_seed, seq)
         vB = ce.inject_watermark(v_B, self.watermark_seed, seq + 10000)
         vA_enc  = ce.encrypt(vA, self.K)
@@ -150,6 +186,7 @@ class ChorusClient:
           V_collective = V_A + V_B  (holographic blend)
           watermark(V_collective) -> encrypt -> send
         """
+        self._maybe_rotate()
         collective = ce.superpose_signals(v_A, v_B)
         collective = ce.inject_watermark(collective, self.watermark_seed, seq)
         enc = ce.encrypt(collective, self.K)
@@ -158,6 +195,7 @@ class ChorusClient:
     def build_direct_payload(self, v_raw: torch.Tensor,
                               seq: int) -> fabric_pb2.TensorPayload:
         """Direct single-signal encrypted stream."""
+        self._maybe_rotate()
         vwm = ce.inject_watermark(v_raw, self.watermark_seed, seq)
         enc = ce.encrypt(vwm, self.K)
         return self._wrap(enc, "direct", seq)

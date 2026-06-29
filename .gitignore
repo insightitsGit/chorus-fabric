@@ -8,3 +8,4 @@ deploy_log.txt
 deploy_output.txt
 dist/
 *.egg-info/
+build/
