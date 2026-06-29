@@ -4,9 +4,17 @@ CHORUS Protocol – control_plane.py
 Control Plane Service  (Option B: dedicated key-issuance node)
 
 Every pod that wants to communicate must first register here and receive:
-  • Ephemeral session key bundle  (K, K_inv, watermark_seed, TTL)
+  • Ephemeral session key bundle  (K, K_inv, watermark_seed, TTL, key_epoch)
   • Orthogonal projection pair    (W_A, W_B) on request  [Mode A]
   • Relay routing instruction     on request             [Relay nodes]
+  • Rotated key generations       on request             [forward secrecy]
+
+Dynamic key rotation (v0.2.0)
+-----------------------------
+Each session owns a SessionKeyManager that tracks key *epochs*. RotateKey mints
+a fresh QR key for an existing session and bumps the epoch; GetSessionKey lets
+the receiving pod fetch the exact key generation a payload was tagged with, so
+both ends follow the rotation in lock-step and retired keys decrypt nothing.
 
 Phase 1 storage: in-memory dict (restarts clear all sessions).
 Phase 2 upgrade: swap _sessions for Redis / etcd for HA multi-instance.
@@ -32,13 +40,33 @@ CONTROL_PLANE_PORT  = int(os.getenv("CONTROL_PLANE_PORT", "50051"))
 TARGET_HOST         = os.getenv("CHORUS_TARGET_HOST", "target-pod")
 TARGET_PORT_ENV     = os.getenv("CHORUS_TARGET_PORT", "50053")
 AMPLIFY_FACTOR      = float(os.getenv("CHORUS_AMPLIFY_FACTOR", "1.0"))
+KEY_GRACE           = int(os.getenv("CHORUS_KEY_GRACE", str(ce.DEFAULT_KEY_GRACE)))
+# Advisory rekey cadence broadcast to relays (0 = rotation driven by the client).
+REKEY_EVERY         = int(os.getenv("CHORUS_REKEY_EVERY", "0"))
 
 
 class ControlPlaneServicer(fabric_pb2_grpc.ControlPlaneServicer):
 
     def __init__(self):
         self._sessions: dict = {}   # session_id -> session dict
-        logger.info("Control Plane initialised  dim=%d  ttl=%ds", DIM, SESSION_TTL)
+        logger.info("Control Plane initialised  dim=%d  ttl=%ds  key_grace=%d",
+                    DIM, SESSION_TTL, KEY_GRACE)
+
+    # ── helpers ───────────────────────────────────────────────────────────────
+
+    def _bundle(self, sid: str, sess: dict, epoch: int) -> fabric_pb2.SessionKeyBundle:
+        """Serialise the key pair at ``epoch`` of a session into a wire bundle."""
+        K, K_inv = sess["manager"].get(epoch)
+        return fabric_pb2.SessionKeyBundle(
+            session_id=sid,
+            key_matrix_K=ce.matrix_to_bytes(K),
+            key_matrix_K_inv=ce.matrix_to_bytes(K_inv),
+            watermark_seed=sess["watermark_seed"],
+            issued_at=sess["issued_at"],
+            expires_at=sess["expires_at"],
+            dim=DIM,
+            key_epoch=epoch,
+        )
 
     # ── RegisterAndRequestKey ─────────────────────────────────────────────────
 
@@ -48,31 +76,65 @@ class ControlPlaneServicer(fabric_pb2_grpc.ControlPlaneServicer):
         context: grpc.ServicerContext,
     ) -> fabric_pb2.SessionKeyBundle:
         """
-        Pod registers -> receives ephemeral (K, K_inv, watermark_seed).
+        Pod registers -> receives a fresh session at key epoch 0.
         A new session is always created (idempotent registration is Phase 2).
         """
-        K, K_inv = ce.generate_key_pair(DIM)
-        seed     = ce.generate_watermark_seed(DIM)
-        now      = int(time.time())
-        sid      = str(uuid.uuid4())
-
+        now = int(time.time())
+        sid = str(uuid.uuid4())
         self._sessions[sid] = {
-            "K": K, "K_inv": K_inv, "watermark_seed": seed,
-            "pod_id": request.pod_id, "role": request.pod_role,
-            "issued_at": now, "expires_at": now + SESSION_TTL,
+            "manager":        ce.SessionKeyManager(DIM, grace=KEY_GRACE),
+            "watermark_seed": ce.generate_watermark_seed(DIM),
+            "pod_id":         request.pod_id,
+            "role":           request.pod_role,
+            "issued_at":      now,
+            "expires_at":     now + SESSION_TTL,
         }
-        logger.info("Session created  pod=%s  role=%s  sid=%s  expires=%d",
+        logger.info("Session created  pod=%s  role=%s  sid=%s  epoch=0  expires=%d",
                     request.pod_id, request.pod_role, sid, now + SESSION_TTL)
+        return self._bundle(sid, self._sessions[sid], 0)
 
-        return fabric_pb2.SessionKeyBundle(
-            session_id=sid,
-            key_matrix_K=ce.matrix_to_bytes(K),
-            key_matrix_K_inv=ce.matrix_to_bytes(K_inv),
-            watermark_seed=seed,
-            issued_at=now,
-            expires_at=now + SESSION_TTL,
-            dim=DIM,
-        )
+    # ── RotateKey ─────────────────────────────────────────────────────────────
+
+    def RotateKey(
+        self,
+        request: fabric_pb2.KeyRequest,
+        context: grpc.ServicerContext,
+    ) -> fabric_pb2.SessionKeyBundle:
+        """
+        Mint a fresh key generation for an existing session (forward secrecy).
+        Returns the bundle for the new epoch; old epochs beyond the grace window
+        are retired by the SessionKeyManager and can no longer decrypt traffic.
+        """
+        sess = self.get_session(request.session_id)
+        if sess is None:
+            context.set_code(grpc.StatusCode.NOT_FOUND)
+            context.set_details("Session not found or expired")
+            return fabric_pb2.SessionKeyBundle()
+        new_epoch = sess["manager"].rotate()
+        logger.info("Key rotated  sid=%s  new_epoch=%d  live=%s",
+                    request.session_id, new_epoch, sess["manager"].live_epochs())
+        return self._bundle(request.session_id, sess, new_epoch)
+
+    # ── GetSessionKey ─────────────────────────────────────────────────────────
+
+    def GetSessionKey(
+        self,
+        request: fabric_pb2.KeyRequest,
+        context: grpc.ServicerContext,
+    ) -> fabric_pb2.SessionKeyBundle:
+        """
+        Return the key bundle for a specific (session_id, key_epoch). If the
+        requested epoch has been retired or never existed, the current epoch is
+        returned. Lets the receiving pod follow the sender's rotations exactly.
+        """
+        sess = self.get_session(request.session_id)
+        if sess is None:
+            context.set_code(grpc.StatusCode.NOT_FOUND)
+            context.set_details("Session not found or expired")
+            return fabric_pb2.SessionKeyBundle()
+        mgr = sess["manager"]
+        epoch = request.key_epoch if mgr.has_epoch(request.key_epoch) else mgr.current_epoch
+        return self._bundle(request.session_id, sess, epoch)
 
     # ── RequestOrthogonalProjections ─────────────────────────────────────────
 
@@ -104,7 +166,7 @@ class ControlPlaneServicer(fabric_pb2_grpc.ControlPlaneServicer):
             forward_to=f"{TARGET_HOST}:{TARGET_PORT_ENV}",
             amplify_factor=AMPLIFY_FACTOR,
             log_fingerprint=True,
-            rekey=False,
+            rekey=REKEY_EVERY > 0,
         )
 
     # ── Session helper (used by server.py) ───────────────────────────────────

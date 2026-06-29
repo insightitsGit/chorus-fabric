@@ -52,6 +52,16 @@ class ControlPlaneStub:
                 request_serializer=fabric__pb2.KeyRequest.SerializeToString,
                 response_deserializer=fabric__pb2.RelayInstruction.FromString,
                 _registered_method=True)
+        self.RotateKey = channel.unary_unary(
+                '/chorus.ControlPlane/RotateKey',
+                request_serializer=fabric__pb2.KeyRequest.SerializeToString,
+                response_deserializer=fabric__pb2.SessionKeyBundle.FromString,
+                _registered_method=True)
+        self.GetSessionKey = channel.unary_unary(
+                '/chorus.ControlPlane/GetSessionKey',
+                request_serializer=fabric__pb2.KeyRequest.SerializeToString,
+                response_deserializer=fabric__pb2.SessionKeyBundle.FromString,
+                _registered_method=True)
 
 
 class ControlPlaneServicer:
@@ -78,6 +88,18 @@ class ControlPlaneServicer:
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def RotateKey(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetSessionKey(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_ControlPlaneServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -95,6 +117,16 @@ def add_ControlPlaneServicer_to_server(servicer, server):
                     servicer.GetRelayInstruction,
                     request_deserializer=fabric__pb2.KeyRequest.FromString,
                     response_serializer=fabric__pb2.RelayInstruction.SerializeToString,
+            ),
+            'RotateKey': grpc.unary_unary_rpc_method_handler(
+                    servicer.RotateKey,
+                    request_deserializer=fabric__pb2.KeyRequest.FromString,
+                    response_serializer=fabric__pb2.SessionKeyBundle.SerializeToString,
+            ),
+            'GetSessionKey': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetSessionKey,
+                    request_deserializer=fabric__pb2.KeyRequest.FromString,
+                    response_serializer=fabric__pb2.SessionKeyBundle.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -181,6 +213,60 @@ class ControlPlane:
             '/chorus.ControlPlane/GetRelayInstruction',
             fabric__pb2.KeyRequest.SerializeToString,
             fabric__pb2.RelayInstruction.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def RotateKey(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/chorus.ControlPlane/RotateKey',
+            fabric__pb2.KeyRequest.SerializeToString,
+            fabric__pb2.SessionKeyBundle.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetSessionKey(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/chorus.ControlPlane/GetSessionKey',
+            fabric__pb2.KeyRequest.SerializeToString,
+            fabric__pb2.SessionKeyBundle.FromString,
             options,
             channel_credentials,
             insecure,

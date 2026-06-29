@@ -1,0 +1,57 @@
+{
+  "timestamp": "20260629T184919Z",
+  "torch_version": "2.9.1+cpu",
+  "cuda_available": false,
+  "batch": 1024,
+  "iters": 100,
+  "results": [
+    {
+      "device": "cpu",
+      "dtype": "float32",
+      "dim": 128,
+      "batch": 1024,
+      "iters": 100,
+      "elapsed_s": 0.008483300000079907,
+      "vectors_per_sec": 12070774.344775671,
+      "gib_per_sec": 5.755793735874019,
+      "us_per_vector": 0.08284472656328035,
+      "cuda_available": false
+    },
+    {
+      "device": "cpu",
+      "dtype": "float32",
+      "dim": 512,
+      "batch": 1024,
+      "iters": 100,
+      "elapsed_s": 0.1039537000033306,
+      "vectors_per_sec": 985053.9230130258,
+      "gib_per_sec": 1.8788412533054843,
+      "us_per_vector": 1.0151728515950253,
+      "cuda_available": false
+    },
+    {
+      "device": "cpu",
+      "dtype": "float32",
+      "dim": 1536,
+      "batch": 1024,
+      "iters": 100,
+      "elapsed_s": 0.9570705000078306,
+      "vectors_per_sec": 106993.16298972978,
+      "gib_per_sec": 0.6122197894462382,
+      "us_per_vector": 9.34639160163897,
+      "cuda_available": false
+    },
+    {
+      "device": "cpu",
+      "dtype": "float32",
+      "dim": 4096,
+      "batch": 1024,
+      "iters": 100,
+      "elapsed_s": 7.239328800002113,
+      "vectors_per_sec": 14144.95774801251,
+      "gib_per_sec": 0.21583492657489792,
+      "us_per_vector": 70.69657031252063,
+      "cuda_available": false
+    }
+  ]
+}

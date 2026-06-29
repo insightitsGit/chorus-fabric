@@ -3,12 +3,18 @@ syntax = "proto3";
 package chorus;
 
 // ─────────────────────────────────────────────────────────────────────────────
-// CHORUS Protocol  –  fabric.proto  v1.0
+// CHORUS Protocol  –  fabric.proto  v1.1
 //
 // Three service tiers:
-//   1. ControlPlane  – pod registration, ephemeral key issuance, session mgmt
+//   1. ControlPlane  – pod registration, ephemeral key issuance, session mgmt,
+//                      dynamic key rotation (forward secrecy)
 //   2. TargetPod     – final signal receiver (decrypt, verify, process)
 //   3. RelayNode     – amplifier / logger / combiner between source and target
+//
+// v1.1 adds dynamic key rotation: every payload is tagged with the key_epoch
+// it was encrypted under, and ControlPlane.RotateKey mints a fresh QR key for
+// an existing session so a compromised key never decrypts past or future
+// traffic (forward secrecy).
 // ─────────────────────────────────────────────────────────────────────────────
 
 // ── Shared wire types ─────────────────────────────────────────────────────────
@@ -23,6 +29,7 @@ message TensorPayload {
   string mode       = 6;  // "isolation" | "superposition" | "direct"
   bytes  watermark  = 7;
   int64  seq_num    = 8;
+  int32  key_epoch  = 9;  // key generation this payload was encrypted under
 }
 
 // Per-chunk acknowledgement from the receiver.
@@ -33,6 +40,7 @@ message SignalAck {
   float  signal_norm = 4;
   string status      = 5;  // "ok" | "tampered" | "key_expired" | "error"
   string message     = 6;
+  int32  key_epoch   = 7;  // key generation used to decrypt this payload
 }
 
 // ── Control Plane types ───────────────────────────────────────────────────────
@@ -51,12 +59,14 @@ message SessionKeyBundle {
   int64  issued_at        = 5;
   int64  expires_at       = 6;
   int32  dim              = 7;
+  int32  key_epoch        = 8;  // generation counter, starts at 0, +1 per rotation
 }
 
 message KeyRequest {
   string pod_id      = 1;
   string peer_pod_id = 2;
   string session_id  = 3;
+  int32  key_epoch   = 4;  // epoch to fetch (RotateKey ignores; target fetch uses)
 }
 
 message ProjectionBundle {
@@ -91,6 +101,8 @@ service ControlPlane {
   rpc RegisterAndRequestKey       (PodRegistration) returns (SessionKeyBundle);
   rpc RequestOrthogonalProjections(KeyRequest)      returns (ProjectionBundle);
   rpc GetRelayInstruction         (KeyRequest)      returns (RelayInstruction);
+  rpc RotateKey                   (KeyRequest)      returns (SessionKeyBundle);
+  rpc GetSessionKey               (KeyRequest)      returns (SessionKeyBundle);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
