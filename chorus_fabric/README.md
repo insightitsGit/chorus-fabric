@@ -147,6 +147,21 @@ so the same code runs everywhere. The repository's `bench_cipher.py` benchmarks
 the cipher across embedding dimensions on CPU vs GPU to quantify the
 zero-overhead claim at high dimensions.
 
+### Benchmarks — v0.1.0 → v0.2.0  *(CPU, float64 wire path)*
+
+Cipher throughput is **unchanged within measurement noise** — adding rotation
+and the device path cost nothing in steady state:
+
+| dim | v0.1.0 vec/s | v0.2.0 vec/s |
+|----:|-------------:|-------------:|
+| 128 | 1,732,680 | 1,682,260 |
+| 1536 | 24,677 | 25,421 |
+| 4096 | 4,500 | 4,723 |
+
+Forward secrecy costs only the rotation event itself (one QR key-gen): **2.35 ms
+at 128-dim**, i.e. `2.35 µs/msg` amortized at `rekey_every=1000` (~0.0013% of a
+179 ms RTT). Full numbers: [results/v010_vs_v020_comparison.md](https://github.com/insightitsGit/chorus-fabric/blob/master/results/v010_vs_v020_comparison.md).
+
 ---
 
 ## Use Cases

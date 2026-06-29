@@ -54,6 +54,13 @@ This project adheres to [Semantic Versioning](https://semver.org/).
   window size; `TestDevicePath` (4) covers device resolution/fallback, device
   parity, the throughput smoke test, and GPU/CPU parity (skipped without CUDA).
 
+### Benchmarks (v0.1.0 → v0.2.0, CPU)
+- Cipher throughput unchanged within measurement noise (e.g. 128-dim ~1.7M vec/s
+  in both versions) — rotation + device path add zero steady-state overhead.
+- Forward secrecy costs only the rotation event (one QR key-gen): 2.35 ms at
+  128-dim, ~0.0013% amortized at `rekey_every=1000`. Full table in
+  [results/v010_vs_v020_comparison.md](results/v010_vs_v020_comparison.md).
+
 ## [0.1.0]
 - Initial release: tensor-multiplication cipher, rolling SHA-256 watermark,
   Direct / Isolation (Mode A) / Superposition (Mode B) transmission modes,
