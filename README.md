@@ -70,6 +70,11 @@ dimensions, proving the zero-overhead claim scales past 4096-dim vectors.
 
 See [CHANGELOG.md](CHANGELOG.md) for the full v0.2.0 change list.
 
+**v0.1.0 → v0.2.0 (CPU):** cipher throughput unchanged within noise (e.g. 128-dim
+~1.7M vec/s both versions); forward secrecy costs only the rotation event — 2.35 ms
+at 128-dim, ~0.0013% amortized at `rekey_every=1000`. Full table:
+[results/v010_vs_v020_comparison.md](results/v010_vs_v020_comparison.md).
+
 ---
 
 ## Live Benchmark
