@@ -15,6 +15,28 @@ pip install chorus-fabric
 
 ---
 
+**AI assistants:** [docs/ai-overview.md](docs/ai-overview.md) · [docs/llm-context.md](docs/llm-context.md) · [docs/architecture.md](docs/architecture.md)
+
+## What is this?
+
+AI-to-AI tensor communication protocol — stream float32 embeddings over gRPC without JSON/token round-trips.
+
+**Package:** `chorus-fabric` see PyPI
+
+## Who is it for?
+
+Multi-agent / migration systems that move embeddings between processes.
+
+## What problem does it solve?
+
+Serialize embeddings to JSON, send HTTP, re-embed — bandwidth and latency waste.
+
+## When NOT to use it
+
+You only exchange short text prompts and do not move tensors.
+
+---
+
 ## The Problem
 
 Every multi-agent AI system today wastes bandwidth and latency on the **token boundary**:
