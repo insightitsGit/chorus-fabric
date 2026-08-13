@@ -15,6 +15,9 @@ pip install chorus-fabric
 
 ---
 
+
+**Keywords:** AI-to-AI tensor protocol, float32 embedding stream, gRPC agent fabric, chorus-fabric, zero JSON token tax, patent pending tensor comms
+
 **AI assistants:** [docs/ai-overview.md](docs/ai-overview.md) · [docs/llm-context.md](docs/llm-context.md) · [docs/architecture.md](docs/architecture.md)
 
 ## What is this?
@@ -299,7 +302,7 @@ pip install chorus-fabric
 
 **Amin Parva** — AI Solution Architect & Inventor
 Insight IT Solutions LLC · Mission Viejo, CA
-parvaamin@gmail.com
+insightits.info@gmail.com
 https://insightits.com
 
 Also inventor of:
@@ -313,7 +316,7 @@ Also inventor of:
 MIT — see [LICENSE](LICENSE) for details.
 
 Patent rights reserved. Commercial use of the patented protocol requires a license.
-Contact: **parvaamin@gmail.com**
+Contact: **insightits.info@gmail.com**
 
 ---
 
@@ -322,4 +325,14 @@ Contact: **parvaamin@gmail.com**
 Interested in integrating CHORUS Fabric into your AI infrastructure?
 Open to: research licenses, commercial licenses, integration partnerships, and acquisition discussions.
 
-**Contact: parvaamin@gmail.com**
+**Contact: insightits.info@gmail.com**
+
+---
+
+## Links
+
+- Author: **Amin Parva** ([insightits.info@gmail.com](mailto:insightits.info@gmail.com))
+- Company: [https://www.insightits.com](https://www.insightits.com)
+- GitHub: https://github.com/insightitsGit/chorus-fabric
+- PyPI: https://pypi.org/project/chorus-fabric/
+- Product page: https://www.insightits.com/products/chorus-fabric.html
